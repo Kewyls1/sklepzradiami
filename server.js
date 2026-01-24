@@ -99,8 +99,8 @@ async function saveOrder(orderData) {
     }
 }
 
-// Endpoint dla admina
-app.post('/admin-login', async (req, res) => { // Dodane: async
+// Endpoint dla admina - DODANE: async
+app.post('/admin-login', async (req, res) => {
     const { password } = req.body;
     if (password === process.env.ADMIN_PASSWORD) { // Zmienione: użycie zmiennej środowiskowej
         try {
@@ -115,7 +115,7 @@ app.post('/admin-login', async (req, res) => { // Dodane: async
     }
 });
 
-// Endpoint do tworzenia Payment Intent
+// Endpoint do tworzenia Payment Intent - JUŻ JEST: async
 app.post('/create-payment-intent', async (req, res) => {
     try {
         const { 
@@ -223,8 +223,8 @@ try {
     console.error('❌ Błąd aktualizacji produktów:', error.message);
 }
 
-// Endpoint do ręcznej aktualizacji produktów
-app.get('/admin/update-products', (req, res) => {
+// Endpoint do ręcznej aktualizacji produktów - DODANE: async
+app.get('/admin/update-products', async (req, res) => {
     try {
         const products = generateProducts.updateIndexHTML();
         res.json({ 
@@ -240,8 +240,8 @@ app.get('/admin/update-products', (req, res) => {
     }
 });
 
-// Endpoint do wyszukiwania produktów
-app.get('/api/search', (req, res) => {
+// Endpoint do wyszukiwania produktów - DODANE: async
+app.get('/api/search', async (req, res) => {
     try {
         const query = req.query.q?.toLowerCase() || '';
         console.log('🔍 Wyszukiwanie produktów:', query);
@@ -294,18 +294,23 @@ app.get('/product', (req, res) => {
     res.sendFile(path.join(__dirname, 'product.html'));
 });
 
-// Endpoint do dynamicznego wstrzykiwania klucza publicznego do payment.html
-app.get('/payment', (req, res) => {
-    const filePath = path.join(__dirname, 'payment.html');
-    let html = fs.readFileSync(filePath, 'utf8');
-    
-    // Wstrzykujemy klucz publiczny Stripe z .env
-    html = html.replace(
-        "const stripe = Stripe('pk_test_51SRFlGETbCF5SCca4luNtP4tBkN1g7ObCeyCLPd6xRVRhGx9RCBj2cEv4kYlkU24pWE4rvocABJRuhNaz1PFmZfM00udXcfGvc');",
-        `const stripe = Stripe('${process.env.STRIPE_PUBLIC_KEY}');`
-    );
-    
-    res.send(html);
+// Endpoint do dynamicznego wstrzykiwania klucza publicznego do payment.html - DODANE: async
+app.get('/payment', async (req, res) => {
+    try {
+        const filePath = path.join(__dirname, 'payment.html');
+        let html = fs.readFileSync(filePath, 'utf8');
+        
+        // Wstrzykujemy klucz publiczny Stripe z .env
+        html = html.replace(
+            "const stripe = Stripe('pk_test_51SRFlGETbCF5SCca4luNtP4tBkN1g7ObCeyCLPd6xRVRhGx9RCBj2cEv4kYlkU24pWE4rvocABJRuhNaz1PFmZfM00udXcfGvc');",
+            `const stripe = Stripe('${process.env.STRIPE_PUBLIC_KEY}');`
+        );
+        
+        res.send(html);
+    } catch (error) {
+        console.error('Błąd wczytywania payment.html:', error);
+        res.status(500).send('Błąd serwera');
+    }
 });
 
 app.get('/success', (req, res) => {
@@ -316,20 +321,24 @@ app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
-// Endpoint do debugowania - pokazuje czy pliki są dostępne
-app.get('/debug-assets', (req, res) => {
-    const assetsPath = path.join(__dirname, 'assets/css/style-prefix.css');
-    const exists = fs.existsSync(assetsPath);
-    
-    res.json({
-        assetsPath,
-        exists,
-        currentDir: __dirname,
-        files: fs.readdirSync(__dirname)
-    });
+// Endpoint do debugowania - pokazuje czy pliki są dostępne - DODANE: async
+app.get('/debug-assets', async (req, res) => {
+    try {
+        const assetsPath = path.join(__dirname, 'assets/css/style-prefix.css');
+        const exists = fs.existsSync(assetsPath);
+        
+        res.json({
+            assetsPath,
+            exists,
+            currentDir: __dirname,
+            files: fs.readdirSync(__dirname)
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
-// Endpoint do weryfikacji płatności
+// Endpoint do weryfikacji płatności - JUŻ JEST: async
 app.get('/verify-payment/:paymentIntentId', async (req, res) => {
     try {
         const paymentIntent = await stripe.paymentIntents.retrieve(req.params.paymentIntentId);
