@@ -321,6 +321,20 @@ app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
+
+// Dodaj to do server.js
+app.post('/update-order-status', async (req, res) => {
+    try {
+        const { paymentIntentId, status } = req.body;
+        await sql`UPDATE orders SET status = ${status} WHERE payment_intent_id = ${paymentIntentId}`;
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Błąd aktualizacji statusu:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+
 // Endpoint do debugowania - pokazuje czy pliki są dostępne - DODANE: async
 app.get('/debug-assets', async (req, res) => {
     try {
@@ -356,3 +370,4 @@ app.listen(PORT, () => {
     console.log(`🔍 Przykład wyszukiwania: http://localhost:${PORT}/api/search?q=diagnostyczny`);
     console.log(`🔑 Klucz Stripe: ${process.env.STRIPE_SECRET_KEY ? 'OK' : 'BRAK'}`);
 });
+
