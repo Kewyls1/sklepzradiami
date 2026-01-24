@@ -25,6 +25,7 @@
         .container { max-width: 1000px; margin: 0 auto; padding: 0 20px 40px; display: grid; grid-template-columns: 1fr 400px; gap: 40px; }
         @media (max-width: 850px) { .container { grid-template-columns: 1fr; } }
 
+        /* SEKCJE FORMULARZA */
         .section-title { font-size: 13px; font-weight: 700; color: var(--text-muted); margin: 25px 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px; }
 
         .input-group-container { 
@@ -46,6 +47,7 @@
         }
         .input-field::placeholder { color: #aaa; }
 
+        /* METODA DOSTAWY */
         .delivery-container { border: 1px solid var(--border-color); border-radius: 12px; background: white; overflow: hidden; }
         .delivery-item { 
             display: flex; align-items: center; padding: 18px; 
@@ -59,22 +61,16 @@
         .delivery-text span { font-size: 12px; color: #888; }
         .delivery-price { font-weight: 700; font-size: 15px; color: var(--primary-color); }
 
-        #payment-element { 
-            margin-top: 5px; 
-            padding: 10px 0; 
-            min-height: 150px;
-            border: 1px solid #e6e6e6;
-            border-radius: 12px;
-            background: white;
-            padding: 20px;
-        }
+        /* STRIPE ELEMENT */
+        #payment-element { margin-top: 5px; padding: 10px 0; }
 
+        /* PODSUMOWANIE */
         .product-summary { 
             background: white; border-radius: 16px; padding: 30px; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.05); height: fit-content;
             position: sticky; top: 20px;
         }
-        .product-image { width: 100%; border-radius: 12px; margin-bottom: 25px; border: 1px solid #f0f0f0; max-height: 200px; object-fit: contain; }
+        .product-image { width: 100%; border-radius: 12px; margin-bottom: 25px; border: 1px solid #f0f0f0; }
         .product-name { font-size: 18px; font-weight: 600; margin-bottom: 15px; line-height: 1.4; }
         .price-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 15px; color: var(--text-muted); }
         .total-row { 
@@ -83,6 +79,7 @@
             font-size: 24px; font-weight: 700; color: var(--primary-color); 
         }
 
+        /* PRZYCISK */
         .stripe-button { 
             width: 100%; background: var(--stripe-blue); color: white; border: none; 
             padding: 20px; border-radius: 12px; font-size: 17px; font-weight: 600; 
@@ -93,24 +90,20 @@
         .stripe-button:active { transform: translateY(0); }
         .stripe-button:disabled { background: #aab7c4; cursor: not-allowed; box-shadow: none; }
 
-        #error-message { 
-            display: none; color: #df1b41; margin-top: 15px; font-size: 14px; 
-            text-align: center; font-weight: 500; padding: 12px;
-            background: #ffe3e3; border: 1px solid #ff6b6b; border-radius: 8px;
-        }
+        #error-message { color: #df1b41; margin-top: 15px; font-size: 14px; text-align: center; font-weight: 500; }
         
+        /* Loading overlay */
         .loading-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.9);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            flex-direction: column;
         }
         .spinner {
             border: 4px solid #f3f3f3;
@@ -119,35 +112,38 @@
             width: 50px;
             height: 50px;
             animation: spin 1s linear infinite;
-            margin-bottom: 20px;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
-        .form-hint {
-            font-size: 12px;
-            color: #888;
-            margin-top: 5px;
-            display: block;
-        }
-        
-        .validation-error {
-            border: 1px solid #ff6b6b !important;
-            background: #fff5f5 !important;
-        }
-        
-        .success-message {
-            color: #28a745;
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 15px;
-            text-align: center;
-            display: none;
-        }
+        /* Dodaj te style do istniejącego CSS */
+.input-field:invalid {
+    border-color: #ff6b6b;
+}
+
+.input-field:valid {
+    border-color: #51cf66;
+}
+
+#error-message {
+    display: none;
+    padding: 12px;
+    background: #ffe3e3;
+    border: 1px solid #ff6b6b;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.form-hint {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+    display: block;
+}
+
+
     </style>
 </head>
 <body>
@@ -156,7 +152,7 @@
 
 <div id="loadingOverlay" class="loading-overlay">
     <div class="spinner"></div>
-    <p style="font-weight: 600;">Przetwarzanie płatności...</p>
+    <p style="margin-left: 20px; font-weight: 600;">Przetwarzanie płatności...</p>
 </div>
 
 <div class="container">
@@ -168,7 +164,6 @@
                     <input type="email" id="email" class="input-field" placeholder="Adres e-mail" required>
                 </div>
             </div>
-            <div class="form-hint">Na ten adres wyślemy potwierdzenie zamówienia</div>
 
             <div class="section-title">Adres dostawy</div>
             <div class="input-group-container">
@@ -182,7 +177,6 @@
                 </div>
                 <div class="input-row"><input type="tel" id="phone" class="input-field" placeholder="Numer telefonu" required></div>
             </div>
-            <div class="form-hint">Wszystkie pola są wymagane oprócz drugiej linii adresu</div>
 
             <div class="section-title">Metoda dostawy</div>
             <div class="delivery-container">
@@ -200,72 +194,150 @@
 
             <div class="section-title">Płatność bezpieczna</div>
             <div id="payment-element"></div>
-            <div class="form-hint">Wszystkie płatności są szyfrowane i bezpieczne</div>
 
             <button type="submit" class="stripe-button" id="submit-btn">Zapłać teraz</button>
             <div id="error-message"></div>
-            <div id="success-message" class="success-message"></div>
         </form>
     </div>
 
     <div class="product-summary">
-        <img id="sum-img" class="product-image" src="" alt="Produkt" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9IiNmMGYwZjAiPjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIi8+PHRleHQgeD0iNTAiIHk9IjEwMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjY2NjIj5CcmFrIG9icmF6a8SFPzwvdGV4dD48L3N2Zz4=';">
+        <img id="sum-img" class="product-image" src="" alt="Produkt">
         <h3 id="sum-name" class="product-name">Produkt</h3>
         <div class="price-row"><span>Cena produktu:</span><span id="sum-price">0.00 PLN</span></div>
         <div class="price-row"><span>Dostawa:</span><span>1.00 PLN</span></div>
         <div class="total-row"><span>Suma:</span><span id="sum-total">0.00 PLN</span></div>
-        <div style="font-size: 12px; color: #888; margin-top: 15px; text-align: center;">
-            <p>✓ Płatność bezpieczna</p>
-            <p>✓ Szyfrowanie SSL</p>
-            <p>✓ 14-dniowy zwrot</p>
-        </div>
     </div>
 </div>
 
 <script>
-    // 1. Inicjalizacja Stripe
-    const stripe = Stripe('pk_test_51SRFlGETbCF5SCca4luNtP4tBkN1g7ObCeyCLPd6xRVRhGx9RCBj2cEv4kYlkU24pWE4rvocABJRuhNaz1PFmZfM00udXcfGvc');
-    
+    const stripe = Stripe('pk_live_51RbLjTEYLaNHeZVgDNwIqC6y7LgDx7NK15piII7kb5T1X1yf9Qat2e3VOaMYF599mDSsA30K7p6yiCChnLiyaCmS00zVmShdnL');
     let elements;
-    let paymentElementInstance;
-    
-    // Pobranie danych z URL
+    let paymentIntentId;
+
     const params = new URLSearchParams(window.location.search);
     const pPrice = parseFloat(params.get('price') || '0');
     const pName = decodeURIComponent(params.get('name') || 'Produkt');
     const pImage = decodeURIComponent(params.get('image') || '');
 
-    // UI - Podsumowanie
+    // Podsumowanie wizualne
     document.getElementById('sum-img').src = pImage;
     document.getElementById('sum-name').textContent = pName;
     document.getElementById('sum-price').textContent = pPrice.toFixed(2) + " PLN";
     document.getElementById('sum-total').textContent = (pPrice + 1).toFixed(2) + " PLN";
 
-    // 2. FUNKCJA: Ładowanie formularza Stripe zaraz po wejściu na stronę
-    async function loadStripeForm() {
+    // Wczytanie zapisanych danych z localStorage
+    function loadSavedFormData() {
+        const savedData = localStorage.getItem('checkoutFormData');
+        if (savedData) {
+            const data = JSON.parse(savedData);
+            document.getElementById('email').value = data.email || '';
+            document.getElementById('full-name').value = data.fullName || '';
+            document.getElementById('address1').value = data.address1 || '';
+            document.getElementById('address2').value = data.address2 || '';
+            document.getElementById('zip').value = data.zip || '';
+            document.getElementById('city').value = data.city || '';
+            document.getElementById('phone').value = data.phone || '';
+        }
+    }
+
+    // Zapisywanie danych do localStorage
+    function saveFormData() {
+        const formData = {
+            email: document.getElementById('email').value,
+            fullName: document.getElementById('full-name').value,
+            address1: document.getElementById('address1').value,
+            address2: document.getElementById('address2').value,
+            zip: document.getElementById('zip').value,
+            city: document.getElementById('city').value,
+            phone: document.getElementById('phone').value
+        };
+        localStorage.setItem('checkoutFormData', JSON.stringify(formData));
+    }
+
+    // Walidacja formularza
+    function validateForm() {
+        const email = document.getElementById('email').value;
+        const fullName = document.getElementById('full-name').value;
+        const address1 = document.getElementById('address1').value;
+        const zip = document.getElementById('zip').value;
+        const city = document.getElementById('city').value;
+        const phone = document.getElementById('phone').value;
+
+        if (!email || !validateEmail(email)) {
+            showError('Proszę podać poprawny adres e-mail');
+            return false;
+        }
+        if (!fullName || fullName.trim().length < 3) {
+            showError('Proszę podać imię i nazwisko (min. 3 znaki)');
+            return false;
+        }
+        if (!address1 || address1.trim().length < 5) {
+            showError('Proszę podać pełny adres');
+            return false;
+        }
+        if (!zip || !validateZip(zip)) {
+            showError('Proszę podać kod pocztowy w formacie XX-XXX');
+            return false;
+        }
+        if (!city || city.trim().length < 2) {
+            showError('Proszę podać nazwę miasta');
+            return false;
+        }
+        if (!phone || !validatePhone(phone)) {
+            showError('Proszę podać poprawny numer telefonu (9-15 cyfr)');
+            return false;
+        }
+
+        return true;
+    }
+
+    async function initializePayment() {
         try {
+            if (!validateForm()) {
+                return false;
+            }
+
+            const email = document.getElementById('email').value;
+            const fullName = document.getElementById('full-name').value;
+            const address1 = document.getElementById('address1').value;
+            const address2 = document.getElementById('address2').value;
+            const zip = document.getElementById('zip').value;
+            const city = document.getElementById('city').value;
+            const phone = document.getElementById('phone').value;
+            const delivery = document.querySelector('input[name="delivery"]:checked').value;
+
             showLoading(true);
-            
+
+            // Tworzenie PaymentIntent z danymi klienta
             const response = await fetch('/create-payment-intent', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     productPrice: pPrice,
-                    productName: pName
-                    // Na tym etapie nie potrzebujemy jeszcze danych klienta, tylko kwotę
+                    productName: pName,
+                    productImage: pImage,
+                    email: email,
+                    fullName: fullName,
+                    address1: address1,
+                    address2: address2,
+                    zip: zip,
+                    city: city,
+                    phone: phone,
+                    delivery: delivery
                 })
             });
 
+            const result = await response.json();
+
             if (!response.ok) {
-                throw new Error(`Błąd serwera: ${response.status}`);
+                throw new Error(result.error || 'Błąd tworzenia płatności');
             }
 
-            const { clientSecret, error } = await response.json();
-            if (error) throw new Error(error);
+            paymentIntentId = result.paymentIntentId;
 
-            // Inicjalizacja Elements
+            // Inicjalizacja Stripe Elements
             elements = stripe.elements({ 
-                clientSecret,
+                clientSecret: result.clientSecret,
                 appearance: {
                     theme: 'stripe',
                     variables: {
@@ -279,257 +351,224 @@
                     }
                 }
             });
-            
-            // Utwórz i zamontuj PaymentElement
-            paymentElementInstance = elements.create("payment", { 
-                layout: { type: 'tabs', defaultCollapsed: false }
+
+            // Tworzenie PaymentElement
+            const paymentElement = elements.create("payment", { 
+                layout: {
+                    type: 'tabs',
+                    defaultCollapsed: false
+                }
             });
             
-            await paymentElementInstance.mount("#payment-element");
+            paymentElement.mount("#payment-element");
             
-            // Poczekaj na załadowanie iframe
-            await new Promise(resolve => setTimeout(resolve, 500));
-            
-            console.log("✅ Formularz płatności gotowy");
             showLoading(false);
-        } catch (e) {
-            console.error("❌ Błąd Stripe:", e);
-            document.getElementById('error-message').textContent = "Nie udało się załadować modułu płatności. " + e.message;
-            document.getElementById('error-message').style.display = 'block';
+            return true;
+        } catch (error) {
+            console.error('Błąd inicjalizacji:', error);
+            showError('Błąd inicjalizacji płatności: ' + error.message);
             showLoading(false);
+            return false;
         }
     }
 
-    // 3. FUNKCJA: Walidacja formularza
-    function validateForm() {
-        const email = document.getElementById('email').value.trim();
-        const fullName = document.getElementById('full-name').value.trim();
-        const address1 = document.getElementById('address1').value.trim();
-        const zip = document.getElementById('zip').value.trim();
-        const city = document.getElementById('city').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-
-        let isValid = true;
-        const fields = ['email', 'full-name', 'address1', 'zip', 'city', 'phone'];
-        
-        // Resetuj błędy
-        fields.forEach(id => {
-            document.getElementById(id).classList.remove('validation-error');
-        });
-
-        // Walidacja email
-        function validateEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
-
-        // Walidacja telefonu
-        function validatePhone(phone) {
-            const cleanPhone = phone.replace(/\s/g, '');
-            return /^[\+]?[0-9\s\-\(\)]{9,15}$/.test(cleanPhone);
-        }
-
-        // Walidacja kodu pocztowego
-        function validateZip(zip) {
-            return /^\d{2}-\d{3}$/.test(zip);
-        }
-
-        if (!email || !validateEmail(email)) {
-            document.getElementById('email').classList.add('validation-error');
-            showError('Proszę podać poprawny adres e-mail');
-            isValid = false;
-        }
-
-        if (!fullName || fullName.length < 3) {
-            document.getElementById('full-name').classList.add('validation-error');
-            showError('Proszę podać imię i nazwisko (min. 3 znaki)');
-            isValid = false;
-        }
-
-        if (!address1 || address1.length < 5) {
-            document.getElementById('address1').classList.add('validation-error');
-            showError('Proszę podać pełny adres (min. 5 znaków)');
-            isValid = false;
-        }
-
-        if (!zip || !validateZip(zip)) {
-            document.getElementById('zip').classList.add('validation-error');
-            showError('Proszę podać kod pocztowy w formacie XX-XXX');
-            isValid = false;
-        }
-
-        if (!city || city.length < 2) {
-            document.getElementById('city').classList.add('validation-error');
-            showError('Proszę podać nazwę miasta');
-            isValid = false;
-        }
-
-        if (!phone || !validatePhone(phone)) {
-            document.getElementById('phone').classList.add('validation-error');
-            showError('Proszę podać poprawny numer telefonu (9-15 cyfr)');
-            isValid = false;
-        }
-
-        return isValid;
+async function handleSubmit(e) {
+    e.preventDefault();
+    
+    const btn = document.getElementById('submit-btn');
+    const errorElement = document.getElementById('error-message');
+    errorElement.textContent = '';
+    
+    // Walidacja przed płatnością
+    if (!validateForm()) {
+        return;
     }
 
-    // 4. FUNKCJA: Obsługa wysyłki
-    async function handleSubmit(e) {
-        e.preventDefault();
-        
-        if (!validateForm()) return;
+    // Zapis danych formularza
+    saveFormData();
 
-        const btn = document.getElementById('submit-btn');
-        btn.disabled = true;
-        btn.textContent = "Przetwarzanie...";
-        showLoading(true);
+    // Inicjalizacja płatności jeśli jeszcze nie zainicjalizowana
+    if (!elements) {
+        const initialized = await initializePayment();
+        if (!initialized) {
+            return;
+        }
+    }
 
+    btn.disabled = true;
+    btn.textContent = "Przetwarzanie...";
+    showLoading(true);
+
+    try {
         const email = document.getElementById('email').value;
         const fullName = document.getElementById('full-name').value;
+        const address1 = document.getElementById('address1').value;
+        const address2 = document.getElementById('address2').value;
+        const zip = document.getElementById('zip').value;
+        const city = document.getElementById('city').value;
         const phone = document.getElementById('phone').value;
 
-        try {
-            // Potwierdzenie płatności w Stripe
-            const { error, paymentIntent } = await stripe.confirmPayment({
-                elements,
-                confirmParams: {
-                    return_url: `${window.location.origin}/success.html?email=${encodeURIComponent(email)}`,
-                    payment_method_data: {
-                        billing_details: {
-                            name: fullName,
-                            email: email,
-                            phone: phone
+        const { error, paymentIntent } = await stripe.confirmPayment({
+            elements,
+            confirmParams: {
+                return_url: `${window.location.origin}/success.html?payment_intent=${paymentIntentId}`,
+                // Tylko billing details, shipping już ustawione na serwerze
+                payment_method_data: {
+                    billing_details: {
+                        name: fullName,
+                        email: email,
+                        phone: phone,
+                        address: {
+                            line1: address1,
+                            line2: address2 || '',
+                            city: city,
+                            postal_code: zip,
+                            country: 'PL'
                         }
                     }
                 },
-                redirect: 'if_required'
+                // Nie wysyłamy shipping, bo już jest ustawione w PaymentIntent
+                // receipt_email jest już ustawione w metadata na serwerze, ale możemy też tutaj
+                receipt_email: email
+            },
+            redirect: 'if_required'
+        });
+
+        if (error) {
+            console.error('Stripe error:', error);
+            if (error.type === "card_error" || error.type === "validation_error") {
+                showError(error.message);
+            } else {
+                showError("Wystąpił nieoczekiwany błąd podczas płatności");
+            }
+            btn.disabled = false;
+            btn.textContent = "Zapłać teraz";
+            showLoading(false);
+            return;
+        }
+
+        // Jeśli płatność wymaga przekierowania (np. 3D Secure)
+        if (paymentIntent && paymentIntent.status === 'requires_action') {
+            // Stripe automatycznie przekieruje do strony 3D Secure
+            return;
+        }
+
+        // Aktualizacja statusu zamówienia
+        if (paymentIntent && paymentIntent.status === 'succeeded') {
+            await fetch('/update-order-status', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    paymentIntentId: paymentIntentId,
+                    status: 'succeeded'
+                })
             });
 
-            if (error) {
-                const errorElement = document.getElementById('error-message');
-                errorElement.textContent = error.message;
-                errorElement.style.display = 'block';
-                btn.disabled = false;
-                btn.textContent = "Zapłać teraz";
-                showLoading(false);
-            } else if (paymentIntent && paymentIntent.status === 'succeeded') {
-                // Płatność zakończona sukcesem
-                window.location.href = `/success.html?email=${encodeURIComponent(email)}&payment_intent=${paymentIntent.id}`;
-            } else {
-                // Inne statusy - pokaż komunikat
-                showError('Płatność nie powiodła się. Spróbuj ponownie.');
-                btn.disabled = false;
-                btn.textContent = "Zapłać teraz";
-                showLoading(false);
-            }
-        } catch (error) {
-            console.error('Błąd podczas płatności:', error);
-            showError('Wystąpił błąd podczas przetwarzania płatności.');
+            // Przekierowanie do strony sukcesu
+            window.location.href = `/success.html?payment_intent=${paymentIntentId}`;
+        } else {
+            // Płatność nie powiodła się
+            showError('Płatność nie powiodła się. Spróbuj ponownie.');
             btn.disabled = false;
             btn.textContent = "Zapłać teraz";
             showLoading(false);
         }
-    }
 
-    // 5. FUNKCJE POMOCNICZE
-    function showLoading(show) {
-        document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
+    } catch (error) {
+        console.error('Błąd płatności:', error);
+        showError('Błąd podczas przetwarzania płatności: ' + error.message);
+        btn.disabled = false;
+        btn.textContent = "Zapłać teraz";
+        showLoading(false);
     }
+}
 
     function showError(message) {
         const errorElement = document.getElementById('error-message');
         errorElement.textContent = message;
         errorElement.style.display = 'block';
-        setTimeout(() => errorElement.style.display = 'none', 10000);
+        setTimeout(() => {
+            errorElement.style.display = 'none';
+        }, 5000);
     }
 
-    function saveFormData() {
-        const formData = {
-            email: document.getElementById('email').value,
-            fullName: document.getElementById('full-name').value,
-            address1: document.getElementById('address1').value,
-            address2: document.getElementById('address2').value,
-            zip: document.getElementById('zip').value,
-            city: document.getElementById('city').value,
-            phone: document.getElementById('phone').value,
-            delivery: document.querySelector('input[name="delivery"]:checked').value
-        };
-        localStorage.setItem('checkoutFormData', JSON.stringify(formData));
+    function showLoading(show) {
+        const overlay = document.getElementById('loadingOverlay');
+        overlay.style.display = show ? 'flex' : 'none';
     }
 
-    function loadSavedFormData() {
-        try {
-            const savedData = localStorage.getItem('checkoutFormData');
-            if (savedData) {
-                const data = JSON.parse(savedData);
-                document.getElementById('email').value = data.email || '';
-                document.getElementById('full-name').value = data.fullName || '';
-                document.getElementById('address1').value = data.address1 || '';
-                document.getElementById('address2').value = data.address2 || '';
-                document.getElementById('zip').value = data.zip || '';
-                document.getElementById('city').value = data.city || '';
-                document.getElementById('phone').value = data.phone || '';
-                
-                if (data.delivery) {
-                    document.querySelectorAll('input[name="delivery"]').forEach(radio => {
-                        if (radio.value === data.delivery) radio.checked = true;
-                    });
-                }
-            }
-        } catch (e) {
-            console.log('Brak zapisanych danych lub błąd parsowania');
+    // Walidacja email
+    function validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    // Walidacja telefonu
+    function validatePhone(phone) {
+        const phoneRegex = /^[\+]?[0-9\s\-\(\)]{9,15}$/;
+        return phoneRegex.test(phone.replace(/\s/g, ''));
+    }
+
+    // Walidacja kodu pocztowego
+    function validateZip(zip) {
+        const zipRegex = /^\d{2}-\d{3}$/;
+        return zipRegex.test(zip);
+    }
+
+    // Event listeners
+    document.getElementById('payment-form').addEventListener('submit', handleSubmit);
+
+    // Auto-save form data on change
+    const formFields = ['email', 'full-name', 'address1', 'address2', 'zip', 'city', 'phone'];
+    formFields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            field.addEventListener('input', saveFormData);
+            field.addEventListener('change', saveFormData);
         }
-    }
+    });
 
-    // 6. START - Inicjalizacja po załadowaniu DOM
-    document.addEventListener('DOMContentLoaded', () => {
-        // Załaduj zapisane dane formularza
+    // Walidacja w czasie rzeczywistym
+    document.getElementById('email').addEventListener('blur', function() {
+        if (this.value && !validateEmail(this.value)) {
+            showError('Proszę podać poprawny adres email');
+        }
+    });
+
+    document.getElementById('phone').addEventListener('blur', function() {
+        if (this.value && !validatePhone(this.value)) {
+            showError('Proszę podać poprawny numer telefonu');
+        }
+    });
+
+    document.getElementById('zip').addEventListener('blur', function() {
+        if (this.value && !validateZip(this.value)) {
+            showError('Proszę podać kod pocztowy w formacie XX-XXX');
+        }
+    });
+
+    // Inicjalizacja przy ładowaniu strony
+    window.addEventListener('load', () => {
         loadSavedFormData();
         
-        // Załaduj formularz Stripe od razu
-        loadStripeForm();
-        
-        // Ustaw nasłuchiwanie na submit formularza
-        document.getElementById('payment-form').addEventListener('submit', handleSubmit);
-        
-        // Auto-save danych formularza
-        const formFields = ['email', 'full-name', 'address1', 'address2', 'zip', 'city', 'phone'];
-        formFields.forEach(fieldId => {
-            const field = document.getElementById(fieldId);
-            if (field) {
-                field.addEventListener('input', saveFormData);
-            }
+        // Jeśli wszystkie wymagane pola są wypełnione, zainicjalizuj płatność
+        const requiredFields = ['email', 'full-name', 'address1', 'zip', 'city', 'phone'];
+        const allFilled = requiredFields.every(id => {
+            const field = document.getElementById(id);
+            return field && field.value.trim() !== '';
         });
         
-        // Walidacja na bieżąco
-        document.getElementById('email').addEventListener('blur', function() {
-            if (this.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value)) {
-                this.classList.add('validation-error');
-                showError('Nieprawidłowy format email');
-            } else {
-                this.classList.remove('validation-error');
-            }
-        });
+        if (allFilled && validateForm()) {
+            // Poczekaj chwilę na załadowanie DOM
+            setTimeout(() => {
+                initializePayment();
+            }, 500);
+        }
+    });
 
-        document.getElementById('zip').addEventListener('blur', function() {
-            if (this.value && !/^\d{2}-\d{3}$/.test(this.value)) {
-                this.classList.add('validation-error');
-                showError('Kod pocztowy musi być w formacie XX-XXX');
-            } else {
-                this.classList.remove('validation-error');
-            }
-        });
-
-        document.getElementById('phone').addEventListener('blur', function() {
-            const cleanPhone = this.value.replace(/\s/g, '');
-            if (this.value && !/^[\+]?[0-9\s\-\(\)]{9,15}$/.test(cleanPhone)) {
-                this.classList.add('validation-error');
-                showError('Nieprawidłowy numer telefonu (9-15 cyfr)');
-            } else {
-                this.classList.remove('validation-error');
-            }
-        });
-        
-        console.log('✅ Strona płatności gotowa');
+    // Handler dla zmiany metody dostawy
+    document.querySelectorAll('input[name="delivery"]').forEach(radio => {
+        radio.addEventListener('change', saveFormData);
     });
 </script>
 </body>
