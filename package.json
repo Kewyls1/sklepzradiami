@@ -1,0 +1,22 @@
+{
+  "name": "anon-sklep-backend",
+  "version": "1.0.0",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "express": "^4.22.1",
+    "stripe": "^14.25.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "update-products": "node generate-products.js",
+    "watch-products": "node generate-products.js --watch",
+    "install-fix": "npm uninstall file-api && npm install"
+  },
+  "main": "server.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

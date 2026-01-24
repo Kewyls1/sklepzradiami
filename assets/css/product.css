@@ -1,0 +1,499 @@
+
+    /* --- OGÓLNE USTAWIENIA (Sticky Footer) --- */
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #fdfdfd;
+    }
+
+    main {
+      flex-grow: 1;
+      padding-bottom: 60px;
+    }
+
+    /* --- KOLORYSTYKA --- */
+    :root {
+      --accent-color: rgb(0, 81, 255);
+      --text-dark: hsl(0, 0%, 13%);
+      --text-gray: hsl(0, 0%, 47%);
+      --border-color: #e5e5e5;
+    }
+
+    /* --- UKŁAD GÓRNY PRODUKTU --- */
+    .product-details-container {
+      padding: 40px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 50px;
+      margin-bottom: 60px;
+    }
+
+    /* Lewa kolumna - Galeria z Zoomem */
+    .product-gallery {
+      flex: 1 1 450px;
+      position: relative;
+    }
+
+    .main-image-wrapper {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      border: 1px solid var(--border-color);
+      cursor: crosshair; /* Kursor celownika sugeruje zoom */
+      background: #fff;
+    }
+
+    .main-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.2s ease-out; /* Płynność zoomu */
+      transform-origin: center center;
+    }
+
+    .thumbnail-list {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+
+    .thumbnail {
+      width: 80px;
+      height: 80px;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      object-fit: cover;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      transition: all 0.2s;
+    }
+
+    .thumbnail:hover, .thumbnail.active {
+      border-color: var(--accent-color);
+      transform: translateY(-3px);
+    }
+
+    /* Prawa kolumna - Info */
+    .product-info {
+      flex: 1 1 400px;
+    }
+
+    .product-category {
+      background: #eef2ff;
+      color: var(--accent-color);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .product-title {
+      font-size: 2.2rem;
+      color: var(--text-dark);
+      margin: 15px 0;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .rating-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      color: #ffb700;
+    }
+
+    .price-wrapper {
+      display: flex;
+      align-items: baseline;
+      gap: 15px;
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .current-price {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-color);
+    }
+
+    .original-price {
+      text-decoration: line-through;
+      color: var(--text-gray);
+      font-size: 1.2rem;
+    }
+
+    .short-desc {
+      color: var(--text-gray);
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 15px;
+    }
+
+    .qty-input {
+      width: 60px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 1.1rem;
+    }
+
+    .btn-primary {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 6px;
+      font-weight: 600;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-primary:hover {
+      background: hsl(0, 0%, 13%);
+    }
+
+    /* --- NOWA SEKCJA: OPIS SZCZEGÓŁOWY ZE ZDJĘCIAMI I TABELĄ --- */
+    .detailed-description {
+      margin-top: 60px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 40px;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 30px;
+      text-align: left;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 3px;
+      background: var(--accent-color);
+      bottom: -10px;
+      left: 0;
+    }
+
+    /* Layout: Tekst + Zdjęcie */
+    .desc-row {
+      display: flex;
+      align-items: center;
+      gap: 50px;
+      margin-bottom: 60px;
+    }
+
+    .desc-row.reverse {
+      flex-direction: row-reverse;
+    }
+
+    .desc-text {
+      flex: 1;
+      color: var(--text-gray);
+      line-height: 1.8;
+      font-size: 1.05rem;
+    }
+
+    .desc-text h3 {
+      color: var(--text-dark);
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+    }
+
+    .desc-image-box {
+      flex: 1;
+    }
+
+    .desc-image {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    /* Tabela Specyfikacji */
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .specs-table tr:nth-child(odd) {
+      background-color: #f9f9f9;
+    }
+
+    .specs-table td {
+      padding: 15px 20px;
+      border-bottom: 1px solid #eee;
+      color: var(--text-gray);
+    }
+
+    .specs-table td:first-child {
+      font-weight: 600;
+      color: var(--text-dark);
+      width: 30%;
+    }
+
+    /* --- NOWA SEKCJA: RECENZJE --- */
+    .reviews-section {
+      background: white;
+      padding: 50px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      margin-top: 60px;
+    }
+
+    .reviews-header {
+      display: flex;
+      gap: 40px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 30px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .rating-summary {
+      flex: 0 0 200px;
+      text-align: center;
+    }
+
+    .big-score {
+      font-size: 4rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1;
+    }
+
+    .review-bars {
+      flex: 1;
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 8px;
+    }
+
+    .bar-container {
+      flex-grow: 1;
+      height: 8px;
+      background: #eee;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: #ffb700;
+    }
+
+    .review-list {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .review-item {
+      display: flex;
+      gap: 20px;
+    }
+
+    .avatar {
+      width: 50px;
+      height: 50px;
+      background: #ddd;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #666;
+    }
+
+    .review-content h4 {
+      margin: 0 0 5px 0;
+      color: var(--text-dark);
+    }
+
+    .review-date {
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+
+    .review-text {
+      color: var(--text-gray);
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    /* Responsywność */
+    @media (max-width: 768px) {
+      .product-details-container { flex-direction: column; }
+      .desc-row, .desc-row.reverse { flex-direction: column; }
+      .reviews-header { flex-direction: column; }
+    }
+
+/* POPRAWKA GWIAZDEK - HORYZONTALNE */
+.reviews-section .stars {
+    display: inline-flex;
+    gap: 2px;
+}
+
+.review-content > div:first-child {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.review-content > div:first-child ion-icon {
+    display: inline;
+}
+
+/* --- POPRAWKI DLA GWIAZDEK --- */
+.review-content > div {
+    display: block !important;
+}
+
+.review-content ion-icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.rating-summary .stars {
+    display: flex;
+    gap: 2px;
+}
+
+.review-bars .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* POPRAWKA DLA WSZYSTKICH GWIAZDEK */
+.stars,
+.rating-box .stars,
+.rating-summary .stars {
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 2px;
+}
+
+.stars ion-icon,
+.rating-box .stars ion-icon,
+.rating-summary .stars ion-icon {
+    display: inline-block !important;
+    color: #ffb700;
+    font-size: 1.2rem;
+    vertical-align: middle;
+    margin: 0 !important;
+}
+
+/* Specyficzne dla rating-box */
+.rating-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.rating-box .stars {
+    order: 1;
+}
+
+.rating-box span {
+    order: 2;
+}
+
+/* Dla recenzji */
+.review-content > div:first-child {
+    display: flex !important;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.review-content > div:first-child ion-icon {
+    display: inline !important;
+    margin: 0 !important;
+}
+
+
+/* POPRAWKA DLA WSZYSTKICH GWIAZDEK */
+.rating-box .stars,
+.rating-summary .stars,
+.review-content > div:first-child {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 2px;
+    flex-wrap: nowrap !important;
+}
+
+/* Style dla ikon gwiazdek */
+.rating-box .stars ion-icon,
+.rating-summary .stars ion-icon,
+.review-content > div:first-child ion-icon {
+    display: inline-block !important;
+    color: #ffb700;
+    font-size: 1.2rem;
+    margin: 0 !important;
+    padding: 0 !important;
+    vertical-align: middle;
+}
+
+/* Specyficzne dostosowanie dla rating-summary */
+.rating-summary > div:nth-child(2) {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    margin-bottom: 5px;
+}
+
+/* Dla gwiazdek w paskach recenzji */
+.review-bars .bar-row span {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    white-space: nowrap;
+}
+
+/* Reset dla wszystkich kontenerów gwiazdek */
+.stars {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 2px;
+}
+

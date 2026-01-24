@@ -1,0 +1,1094 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VeloMoto.pl - Sklep z radiami </title>
+
+  <!--
+    - favicon
+  -->
+  <link rel="shortcut icon" href="./assets/images/logo/logo.png" type="image/x-icon">
+
+  <!--
+    - custom css link
+  -->
+  <link rel="stylesheet" href="./assets/css/style-prefix.css">
+
+  <!--
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+  <div class="overlay" data-overlay=""></div>
+
+  <!--
+    - MODAL
+  -->
+
+
+
+
+
+
+
+
+  <!--
+    - HEADER
+  -->
+
+  <header>
+    
+    <div class="header-main">
+      <div class="container">
+        <a href="#" class="header-logo">
+          <img src="./assets/images/logo/logo.png" alt="Velomoto logo" width="120" height="90">
+        </a>
+        <div class="header-search-container">
+          <input type="search" name="search" class="search-field" placeholder="Wpisz nazwę produktu...">
+          <button class="search-btn">
+            <ion-icon name="search-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+<br>
+    <nav class="desktop-navigation-menu">
+      <div class="container">
+        <ul class="desktop-menu-category-list">
+          <li class="menu-category">
+            <a href="/" class="menu-title">Strona główna</a>
+          </li>
+          <li class="menu-category">
+            <a href="#products" class="menu-title">Produkty</a>
+          </li>
+          <li class="menu-category">
+            <a href="/kontakt" class="menu-title">Kontakt</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <br>
+
+    <div class="mobile-bottom-navigation">
+
+      <button class="action-btn" data-mobile-menu-open-btn="">
+        <ion-icon name="menu-outline"></ion-icon>
+      </button>
+
+      <button class="action-btn">
+        <ion-icon name="bag-handle-outline"></ion-icon>
+
+        <span class="count">0</span>
+      </button>
+
+      <button class="action-btn">
+        <ion-icon name="home-outline"></ion-icon>
+      </button>
+
+      <button class="action-btn">
+        <ion-icon name="heart-outline"></ion-icon>
+
+        <span class="count">0</span>
+      </button>
+
+      <button class="action-btn" data-mobile-menu-open-btn="">
+        <ion-icon name="grid-outline"></ion-icon>
+      </button>
+
+    </div>
+
+    <nav class="mobile-navigation-menu  has-scrollbar" data-mobile-menu="">
+
+      <div class="menu-top">
+        <h2 class="menu-title">Menu</h2>
+
+        <button class="menu-close-btn" data-mobile-menu-close-btn="">
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
+      </div>
+
+      <ul class="mobile-menu-category-list">
+
+        <li class="menu-category">
+          <a href="#" class="menu-title">Home</a>
+        </li>
+
+        <li class="menu-category">
+
+          <button class="accordion-menu" data-accordion-btn="">
+            <p class="menu-title">Men's</p>
+
+            <div>
+              <ion-icon name="add-outline" class="add-icon"></ion-icon>
+              <ion-icon name="remove-outline" class="remove-icon"></ion-icon>
+            </div>
+          </button>
+
+          <ul class="submenu-category-list" data-accordion="">
+
+            <li class="submenu-category">
+              <a href="#" class="submenu-title">Shirt</a>
+            </li>
+
+            <li class="submenu-category">
+              <a href="#" class="submenu-title">Shorts &amp; Jeans</a>
+            </li>
+
+            <li class="submenu-category">
+              <a href="#" class="submenu-title">Safety Shoes</a>
+            </li>
+
+            <li class="submenu-category">
+              <a href="#" class="submenu-title">Wallet</a>
+            </li>
+
+          </ul>
+
+        </li>
+
+        <li class="menu-category">
+
+          <button class="accordion-menu" data-accordion-btn="">
+            <p class="menu-title">Women's</p>
+
+            <div>
+              <ion-icon name="add-outline" class="add-icon"></ion-icon>
+              <ion-icon name="remove-outline" class="remove-icon"></ion-icon>
+            </div>
+          </button>
+
+          <ul class="submenu-category-list" data-accordion="">
+
+            <li class="submenu-category">
+              <a href="#" class="submenu-title">Dress &amp; Frock</a>
+            </li>
+
+            <li class="submenu-category">
+              <a href="#" class="submenu-title">Earrings</a>
+            </li>
+
+            <li class="submenu-category">
+              <a href="#" class="submenu-title">Necklace</a>
+            </li>
+
+            <li class="submenu-category">
+              <a href="#" class="submenu-title">Makeup Kit</a>
+            </li>
+
+          </ul>
+
+        </li>
+
+        <li class="menu-category">
+
+          <button class="accordion-menu" data-accordion-btn="">
+            <p class="menu-title">Jewelry</p>
+
+            <div>
+              <ion-icon name="add-outline" class="add-icon"></ion-icon>
+              <ion-icon name="remove-outline" class="remove-icon"></ion-icon>
+            </div>
+          </button>
+
+          <ul class="submenu-category-list" data-accordion="">
+
+            <li class="submenu-category">
+              <a href="#" class="submenu-title">Earrings</a>
+            </li>
+
+            <li class="submenu-category">
+              <a href="#" class="submenu-title">Couple Rings</a>
+            </li>
+
+            <li class="submenu-category">
+              <a href="#" class="submenu-title">Necklace</a>
+            </li>
+
+            <li class="submenu-category">
+              <a href="#" class="submenu-title">Bracelets</a>
+            </li>
+
+          </ul>
+
+        </li>
+
+        <li class="menu-category">
+
+          <button class="accordion-menu" data-accordion-btn="">
+            <p class="menu-title">Perfume</p>
+
+            <div>
+              <ion-icon name="add-outline" class="add-icon"></ion-icon>
+              <ion-icon name="remove-outline" class="remove-icon"></ion-icon>
+            </div>
+          </button>
+
+          <ul class="submenu-category-list" data-accordion="">
+
+            <li class="submenu-category">
+              <a href="#" class="submenu-title">Clothes Perfume</a>
+            </li>
+
+            <li class="submenu-category">
+              <a href="#" class="submenu-title">Deodorant</a>
+            </li>
+
+            <li class="submenu-category">
+              <a href="#" class="submenu-title">Flower Fragrance</a>
+            </li>
+
+            <li class="submenu-category">
+              <a href="#" class="submenu-title">Air Freshener</a>
+            </li>
+
+          </ul>
+
+        </li>
+
+        <li class="menu-category">
+          <a href="#" class="menu-title">Blog</a>
+        </li>
+
+        <li class="menu-category">
+          <a href="#" class="menu-title">Hot Offers</a>
+        </li>
+
+      </ul>
+
+      <div class="menu-bottom">
+
+        <ul class="menu-category-list">
+
+          <li class="menu-category">
+
+            <button class="accordion-menu" data-accordion-btn="">
+              <p class="menu-title">Language</p>
+
+              <ion-icon name="caret-back-outline" class="caret-back"></ion-icon>
+            </button>
+
+            <ul class="submenu-category-list" data-accordion="">
+
+              <li class="submenu-category">
+                <a href="#" class="submenu-title">English</a>
+              </li>
+
+              <li class="submenu-category">
+                <a href="#" class="submenu-title">Español</a>
+              </li>
+
+              <li class="submenu-category">
+                <a href="#" class="submenu-title">Frençh</a>
+              </li>
+
+            </ul>
+
+          </li>
+
+          <li class="menu-category">
+            <button class="accordion-menu" data-accordion-btn="">
+              <p class="menu-title">Currency</p>
+              <ion-icon name="caret-back-outline" class="caret-back"></ion-icon>
+            </button>
+
+            <ul class="submenu-category-list" data-accordion="">
+              <li class="submenu-category">
+                <a href="#" class="submenu-title">USD $</a>
+              </li>
+
+              <li class="submenu-category">
+                <a href="#" class="submenu-title">EUR €</a>
+              </li>
+            </ul>
+          </li>
+
+        </ul>
+
+        <ul class="menu-social-container">
+
+          <li>
+            <a href="#" class="social-link">
+              <ion-icon name="logo-facebook"></ion-icon>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="social-link">
+              <ion-icon name="logo-twitter"></ion-icon>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="social-link">
+              <ion-icon name="logo-instagram"></ion-icon>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="social-link">
+              <ion-icon name="logo-linkedin"></ion-icon>
+            </a>
+          </li>
+
+        </ul>
+
+      </div>
+
+    </nav>
+
+  </header>
+
+
+
+
+
+  <!--
+    - MAIN
+  -->
+
+  <main>
+
+    <!--
+      - BANNER
+    -->
+
+    <div class="banner">
+
+      <div class="container">
+
+        <div class="slider-container has-scrollbar">
+
+          <div class="slider-item">
+
+            <img src="./assets/images/2022-mercedes-benz-eqs-interior.jpg" alt="women's latest fashion sale" class="banner-img">
+
+            <div class="banner-content">
+
+              <p class="banner-subtitle">Najnowsze produkty</p>
+
+              <h2 class="banner-title">Najtańsze radia i obd do twojego auta</h2>
+
+              <p class="banner-text">
+                Zaczynają się od <b style="color: blue;">100.00</b> ZŁ.
+              </p>
+
+              <a href="#" class="banner-btn">Sprawdź produkty</a>
+
+            </div>
+
+          </div>
+
+          <div class="slider-item">
+
+            <img src="./assets/images/banner-2.jpg" alt="modern sunglasses" class="banner-img">
+
+            <div class="banner-content">
+
+              <p class="banner-subtitle">Trending accessories</p>
+
+              <h2 class="banner-title">Modern sunglasses</h2>
+
+              <p class="banner-text">
+                starting at $ <b>15</b>.00
+              </p>
+
+              <a href="#" class="banner-btn">Shop now</a>
+
+            </div>
+
+          </div>
+
+          <div class="slider-item">
+
+            <img src="./assets/images/banner-3.jpg" alt="new fashion summer sale" class="banner-img">
+
+            <div class="banner-content">
+
+              <p class="banner-subtitle">Sale Offer</p>
+
+              <h2 class="banner-title">New fashion summer sale</h2>
+
+              <p class="banner-text">
+                starting at $ <b>29</b>.99
+              </p>
+
+              <a href="#" class="banner-btn">Shop now</a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+
+    <!--
+      - CATEGORY
+    -->
+
+   
+
+
+
+
+
+    <!--
+      - PRODUCT
+    -->
+
+    <div class="product-container">
+
+      <div class="container">
+
+
+        <!--
+          - SIDEBAR
+        -->
+
+    
+
+
+        <div class="product-box">
+
+          <!--
+            - PRODUCT MINIMAL
+          -->
+
+
+
+
+          <!--
+            - PRODUCT FEATURED
+          -->
+
+          <div class="product-featured">
+
+            <h2 class="title">Oferta dnia</h2>
+
+            <div class="showcase-wrapper has-scrollbar">
+
+              <div class="showcase-container">
+
+                <div class="showcase">
+                  
+                  <div class="showcase-banner">
+                    <img src="./assets/products/2021.11 AK DS150E z bezpłatnym kluczykiem Bluetooth dla Delp DS150E V9.1 aut_1005007374779483_images/główny obraz_02 (1).jpg" alt="shampoo, conditioner &amp; facewash packs" class="showcase-img">
+                  </div>
+
+                  <div class="showcase-content">
+                    
+                    <div class="showcase-rating">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                    </div>
+
+                    <a href="#">
+                      <h3 class="showcase-title">Tester diagnostyczny OBD2 DS150E Bluetooth v9.1 PL 2021</h3>
+                    </a>
+
+                    <p class="showcase-desc">
+Nowoczesny interfejs diagnostyczny DS150E z łącznością Bluetooth, przeznaczony do samochodów osobowych i dostawczych oraz ciężarowych. Idealny zarówno do warsztatu, jak i dla zaawansowanego użytkownika prywatnego.
+                    </p>
+
+                    <div class="price-box">
+                      <p class="price">220.00 PLN</p>
+
+                      <del>275.00 PLN</del>
+                    </div>
+
+                    <button class="add-cart-btn">Zobacz produkt</button>
+
+                    <div class="showcase-status">
+                      <div class="wrapper">
+                        <p>
+                          Sprzedanych: <b>12</b>
+                        </p>
+
+                        <p>
+                          Dostępnych: <b>34</b>
+                        </p>
+                      </div>
+
+                      <div class="showcase-status-bar"></div>
+                    </div>
+
+                    <div class="countdown-box">
+
+                      <p class="countdown-desc">
+                        Promocja na ofertę kończy się za:
+                      </p>
+
+        <div class="countdown">
+            <div class="countdown-content">
+                <p class="display-number" id="days">00</p>
+                <p class="display-text">Dni</p>
+            </div>
+            
+            <div class="countdown-content">
+                <p class="display-number" id="hours">00</p>
+                <p class="display-text">Godzin</p>
+            </div>
+            
+            <div class="countdown-content">
+                <p class="display-number" id="minutes">00</p>
+                <p class="display-text">Minut</p>
+            </div>
+            
+            <div class="countdown-content">
+                <p class="display-number" id="seconds">00</p>
+                <p class="display-text">Sekund</p>
+            </div>
+        </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+
+            </div>
+
+          </div>
+          <div class="product-main">
+
+            <h2 class="title" id="products">Produkty</h2>
+
+            <div class="product-grid">
+        <div class="showcase" data-title="tester diagnostyczny obd2 ds150e bluetooth v9.1 pl 2021" data-category="obd" data-description="nowoczesny interfejs diagnostyczny ds150e z łącznością bluetooth, 
+            przeznaczony do samochodów osobowych i dostawczych oraz ciężarowych. 
+            idealny zarówno do warsztatu, jak i dla...">
+            <div class="showcase-banner">
+                <img src="/assets/products/2021.11 AK DS150E z bezpłatnym kluczykiem Bluetooth dla Delp DS150E V9.1 aut_1005007374779483_images/główny obraz_02 (1).jpg" alt="Tester diagnostyczny OBD2 DS150E Bluetooth v9.1 PL 2021" width="300" class="product-img default">
+                <img src="/assets/products/2021.11 AK DS150E z bezpłatnym kluczykiem Bluetooth dla Delp DS150E V9.1 aut_1005007374779483_images/główny obraz_02 (1).jpg" alt="Tester diagnostyczny OBD2 DS150E Bluetooth v9.1 PL 2021" width="300" class="product-img hover">
+            </div>
+            
+            <div class="showcase-content">
+                <a href="#" class="showcase-category">OBD</a>
+                <a href="produkty/product.html">
+                    <h3 class="showcase-title">Tester diagnostyczny OBD2 DS150E Bluetooth v9.1 PL 2021</h3>
+                </a>
+                
+                <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon>
+                </div>
+                
+                <div class="price-box">
+                    <p class="price">220.00 ZŁ</p>
+                </div>
+                
+                <a href="produkty/product.html" class="btn-offer">
+                    <span>Zobacz ofertę</span>
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </a>
+                <br>
+            </div>
+        </div>
+    
+        <div 2="" class="showcase" data-title="radio nawigacja android opel insignia 9.7" wifi="" bt="" dsp="" kamera="" 32gb"="" data-category="multimedia samochodowe" data-description="przekształć wnętrze swojego opla insignia za pomocą zaawansowanej stacji multimedialnej w stylu tesla. urządzenie łączy w sobie ogromny, pionowy wyświetlacz ips z funkcjonalnością nowoczesnego tabletu...">
+            <div class="showcase-banner">
+                <img 2="" src="/assets/products/Srnubi 9.7 cali Android Carplay Auto Radio Samochodowe 2Din Dla Opel Insigni_1005009496565281_images/Warianty obrazów SKU_03.jpg" alt="Radio Nawigacja Android Opel Insignia 9.7" wifi="" bt="" dsp="" kamera="" 32gb"="" width="300" class="product-img default">
+                <img 2="" src="/assets/products/Srnubi 9.7 cali Android Carplay Auto Radio Samochodowe 2Din Dla Opel Insigni_1005009496565281_images/Warianty obrazów SKU_03.jpg" alt="Radio Nawigacja Android Opel Insignia 9.7" wifi="" bt="" dsp="" kamera="" 32gb"="" width="300" class="product-img hover">
+            </div>
+            
+            <div class="showcase-content">
+                <a href="#" class="showcase-category">MULTIMEDIA SAMOCHODOWE</a>
+                <a href="produkty/product1.html">
+                    <h3 class="showcase-title">Radio Nawigacja Android Opel Insignia 9.7" WiFi BT DSP Kamera 2/32GB</h3>
+                </a>
+                
+                <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon>
+                </div>
+                
+                <div class="price-box">
+                    <p class="price">500.00 ZŁ</p>
+                </div>
+                
+                <a href="produkty/product1.html" class="btn-offer">
+                    <span>Zobacz ofertę</span>
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </a>
+                <br>
+            </div>
+        </div>
+    
+        <div class="showcase" data-title="radio nawigacja opel insignia a 2014-2017 android 4/64gb carplay + kamera" data-category="multimedia samochodowe" data-description="zmień swoje auto w nowoczesny pojazd klasy premium! oferujemy wysokiej klasy stację nawigacyjną marki podofo, dedykowaną do wersji poliftowej opla insignii. to nie jest zwykłe radio – to potężny kompu...">
+            <div class="showcase-banner">
+                <img src="/assets/products/Radio samochodowe Podofo/główny obraz/główny obraz_10.jpg" alt="Radio Nawigacja Opel Insignia A 2014-2017 Android 4/64GB CarPlay + Kamera" width="300" class="product-img default">
+                <img src="/assets/products/Radio samochodowe Podofo/główny obraz/główny obraz_10.jpg" alt="Radio Nawigacja Opel Insignia A 2014-2017 Android 4/64GB CarPlay + Kamera" width="300" class="product-img hover">
+            </div>
+            
+            <div class="showcase-content">
+                <a href="#" class="showcase-category">MULTIMEDIA SAMOCHODOWE</a>
+                <a href="produkty/product2.html">
+                    <h3 class="showcase-title">Radio Nawigacja Opel Insignia A 2014-2017 Android 4/64GB CarPlay + Kamera</h3>
+                </a>
+                
+                <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon>
+                </div>
+                
+                <div class="price-box">
+                    <p class="price">499.00 ZŁ</p>
+                </div>
+                
+                <a href="produkty/product2.html" class="btn-offer">
+                    <span>Zobacz ofertę</span>
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </a>
+                <br>
+            </div>
+        </div>
+    
+        <div class="showcase" data-title="radio samochodowe venbes 7" 1-din="" |="" mirror="" link,="" bluetooth,="" kamera="" cofania"="" data-category="multimedia samochodowe" data-description="zmień swój samochód w nowoczesne centrum rozrywki. radio venbes oferuje duży, 7-calowy wysuwany ekran dotykowy hd, funkcję mirror link do wyświetlania nawigacji z telefonu oraz łączność bluetooth 5.0....">
+            <div class="showcase-banner">
+                <img src="/assets/products/Radio samochodowe VENBES z funkcją Mirror Link, Bluetooth, kamerą cofania, 7_1005010208972826_images/główny obraz/główny obraz_07.jpg" alt="Radio Samochodowe VENBES 7" 1-din="" |="" mirror="" link,="" bluetooth,="" kamera="" cofania"="" width="300" class="product-img default">
+                <img src="/assets/products/Radio samochodowe VENBES z funkcją Mirror Link, Bluetooth, kamerą cofania, 7_1005010208972826_images/główny obraz/główny obraz_07.jpg" alt="Radio Samochodowe VENBES 7" 1-din="" |="" mirror="" link,="" bluetooth,="" kamera="" cofania"="" width="300" class="product-img hover">
+            </div>
+            
+            <div class="showcase-content">
+                <a href="#" class="showcase-category">MULTIMEDIA SAMOCHODOWE</a>
+                <a href="produkty/product3.html">
+                    <h3 class="showcase-title">Radio Samochodowe VENBES 7" 1-DIN | Mirror Link, Bluetooth, Kamera Cofania</h3>
+                </a>
+                
+                <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon>
+                </div>
+                
+                <div class="price-box">
+                    <p class="price">250.00 ZŁ</p>
+                </div>
+                
+                <a href="produkty/product3.html" class="btn-offer">
+                    <span>Zobacz ofertę</span>
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </a>
+                <br>
+            </div>
+        </div>
+    
+        <div class="showcase" data-title="radio nawigacja android ford fiesta mk5 (02-08) 2/64gb wifi gps carplay" data-category="multimedia samochodowe" data-description="odśwież wnętrze swojego forda fiesty mk5 (2002-2008) dzięki nowoczesnej stacji multimedialnej. 
+            wydajny system android, dotykowy ekran 9 cali, nawigacja google maps oraz łączność bluetooth...">
+            <div class="showcase-banner">
+                <img src="/assets/products/Podofo 2 din Android Radio Samochodowe Multimedialne do Forda Fiesta Mk5 200_1005010626887695_images/główny obraz/główny obraz_08.jpg" alt="Radio Nawigacja Android Ford Fiesta Mk5 (02-08) 2/64GB WiFi GPS Carplay" width="300" class="product-img default">
+                <img src="/assets/products/Podofo 2 din Android Radio Samochodowe Multimedialne do Forda Fiesta Mk5 200_1005010626887695_images/główny obraz/główny obraz_08.jpg" alt="Radio Nawigacja Android Ford Fiesta Mk5 (02-08) 2/64GB WiFi GPS Carplay" width="300" class="product-img hover">
+            </div>
+            
+            <div class="showcase-content">
+                <a href="#" class="showcase-category">MULTIMEDIA SAMOCHODOWE</a>
+                <a href="produkty/product4.html">
+                    <h3 class="showcase-title">Radio Nawigacja Android Ford Fiesta Mk5 (02-08) 2/64GB WiFi GPS Carplay</h3>
+                </a>
+                
+                <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon>
+                </div>
+                
+                <div class="price-box">
+                    <p class="price">400.00 ZŁ</p>
+                </div>
+                
+                <a href="produkty/product4.html" class="btn-offer">
+                    <span>Zobacz ofertę</span>
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </a>
+                <br>
+            </div>
+        </div>
+    
+        <div class="showcase" data-title="radio nawigacja android hyundai i20 2015-2017 | 9" hd="" |="" 2gb="" ram="" +="" 64gb="" rom="" wireless="" carplay="" &="" android="" auto"="" data-category="multimedia samochodowe" data-description="zmień swój hyundai i20 w centrum multimedialne. nowoczesne radio z systemem android, bezprzewodową obsługą carplay oraz android auto. duży, 9-calowy ekran dotykowy 2.5d zapewnia krystaliczny obraz, a ...">
+            <div class="showcase-banner">
+                <img src="/assets/products/hyundai/główny obraz/główny obraz_08.jpg" alt="Radio Nawigacja Android Hyundai i20 2015-2017 | 9" hd="" |="" 2gb="" ram="" +="" 64gb="" rom="" wireless="" carplay="" &="" android="" auto"="" width="300" class="product-img default">
+                <img src="/assets/products/hyundai/główny obraz/główny obraz_08.jpg" alt="Radio Nawigacja Android Hyundai i20 2015-2017 | 9" hd="" |="" 2gb="" ram="" +="" 64gb="" rom="" wireless="" carplay="" &="" android="" auto"="" width="300" class="product-img hover">
+            </div>
+            
+            <div class="showcase-content">
+                <a href="#" class="showcase-category">Multimedia Samochodowe</a>
+                <a href="produkty/product5.html">
+                    <h3 class="showcase-title">Radio Nawigacja Android Hyundai i20 2015-2017 | 9" HD | 2GB RAM + 64GB ROM | Wireless CarPlay &amp; Android Auto</h3>
+                </a>
+                
+                <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon>
+                </div>
+                
+                <div class="price-box">
+                    <p class="price">400.00 ZŁ</p>
+                </div>
+                
+                <a href="produkty/product5.html" class="btn-offer">
+                    <span>Zobacz ofertę</span>
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </a>
+                <br>
+            </div>
+        </div>
+    
+        <div class="showcase" data-title="radio nawigacja android 8" vw="" passat="" b6="" b7="" golf="" skoda="" seat="" |="" 2gb+64gb="" carplay="" bt="" gps"="" data-category="multimedia samochodowe" data-description="odmień wnętrze swojego samochodu dzięki nowoczesnej stacji multimedialnej podofo 8" .="" wyposażone="" w="" system="" android,="" radio="" oferuje="" płynną="" nawigację="" gps,="" bezprzewodową="" obsługę="" ca..."="">
+            <div class="showcase-banner">
+                <img src="/assets/products/passat/główny obraz/główny obraz_07.jpg" alt="Radio Nawigacja Android 8" vw="" passat="" b6="" b7="" golf="" skoda="" seat="" |="" 2gb+64gb="" carplay="" bt="" gps"="" width="300" class="product-img default">
+                <img src="/assets/products/passat/główny obraz/główny obraz_07.jpg" alt="Radio Nawigacja Android 8" vw="" passat="" b6="" b7="" golf="" skoda="" seat="" |="" 2gb+64gb="" carplay="" bt="" gps"="" width="300" class="product-img hover">
+            </div>
+            
+            <div class="showcase-content">
+                <a href="#" class="showcase-category">Multimedia Samochodowe</a>
+                <a href="produkty/product6.html">
+                    <h3 class="showcase-title">Radio Nawigacja Android 8" VW Passat B6 B7 Golf Skoda Seat | 2GB+64GB | CarPlay | BT | GPS</h3>
+                </a>
+                
+                <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon>
+                </div>
+                
+                <div class="price-box">
+                    <p class="price">470.00 ZŁ</p>
+                </div>
+                
+                <a href="produkty/product6.html" class="btn-offer">
+                    <span>Zobacz ofertę</span>
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </a>
+                <br>
+            </div>
+        </div>
+    
+        <div class="showcase" data-title="radio ainavi 6.36" ips="" 1din="" –="" bezprzewodowy="" carplay="" &="" android="" auto"="" data-category="multimedia samochodowe" data-description="zmodernizuj swoje auto dzięki ainavi. to uniwersalne radio 1din z dużym, 6.36-calowym ekranem ips oferuje pełną swobodę dzięki bezprzewodowej obsłudze carplay oraz android auto. stabilny system linux ...">
+            <div class="showcase-banner">
+                <img src="/assets/products/maleradio/główny obraz/główny obraz_08.jpg" alt="Radio Ainavi 6.36" ips="" 1din="" –="" bezprzewodowy="" carplay="" &="" android="" auto"="" width="300" class="product-img default">
+                <img src="/assets/products/maleradio/główny obraz/główny obraz_08.jpg" alt="Radio Ainavi 6.36" ips="" 1din="" –="" bezprzewodowy="" carplay="" &="" android="" auto"="" width="300" class="product-img hover">
+            </div>
+            
+            <div class="showcase-content">
+                <a href="#" class="showcase-category">Multimedia Samochodowe</a>
+                <a href="produkty/product7.html">
+                    <h3 class="showcase-title">Radio Ainavi 6.36" IPS 1Din – Bezprzewodowy CarPlay &amp; Android Auto</h3>
+                </a>
+                
+                <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon>
+                </div>
+                
+                <div class="price-box">
+                    <p class="price">250.00 ZŁ</p>
+                </div>
+                
+                <a href="produkty/product7.html" class="btn-offer">
+                    <span>Zobacz ofertę</span>
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </a>
+                <br>
+            </div>
+        </div>
+    
+        <div class="showcase" data-title="radio nawigacja podofo android opel insignia (2008-2013) / buick regal | carplay | gps | 2/64gb" data-category="multimedia samochodowe" data-description="nowoczesna stacja multimedialna podofo z systemem android, dedykowana do opel insignia oraz buick regal. wyposażona w 9-calowy ekran dotykowy ze szkła hartowanego 2.5d. obsługuje bezprzewodowy carplay...">
+            <div class="showcase-banner">
+                <img src="/assets/products/PODOFO Carplay Odtwarzacz Multimedialny Samochodowy do Buick Regal 2009 2010_1005010636538164_images/główny obraz/główny obraz_08.jpg" alt="Radio Nawigacja PODOFO Android Opel Insignia (2008-2013) / Buick Regal | CarPlay | GPS | 2/64GB" width="300" class="product-img default">
+                <img src="/assets/products/PODOFO Carplay Odtwarzacz Multimedialny Samochodowy do Buick Regal 2009 2010_1005010636538164_images/główny obraz/główny obraz_08.jpg" alt="Radio Nawigacja PODOFO Android Opel Insignia (2008-2013) / Buick Regal | CarPlay | GPS | 2/64GB" width="300" class="product-img hover">
+            </div>
+            
+            <div class="showcase-content">
+                <a href="#" class="showcase-category">Multimedia Samochodowe</a>
+                <a href="produkty/product8.html">
+                    <h3 class="showcase-title">Radio Nawigacja PODOFO Android Opel Insignia (2008-2013) / Buick Regal | CarPlay | GPS | 2/64GB</h3>
+                </a>
+                
+                <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon>
+                </div>
+                
+                <div class="price-box">
+                    <p class="price">450.00 ZŁ</p>
+                </div>
+                
+                <a href="produkty/product8.html" class="btn-offer">
+                    <span>Zobacz ofertę</span>
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </a>
+                <br>
+            </div>
+        </div>
+    
+        <div 2="" class="showcase" data-title="radio nawigacja android opel insignia 9.7" wifi="" bt="" dsp="" kamera="" 32gb"="" data-category="multimedia samochodowe" data-description="nowoczesny interfejs diagnostyczny ds150e z łącznością bluetooth, 
+            przeznaczony do samochodów osobowych i dostawczych oraz ciężarowych. 
+            idealny zarówno do warsztatu, jak i dla...">
+            <div class="showcase-banner">
+                <img 2="" src="/assets/products/bmwradio/główny obraz/główny obraz_08.jpg" alt="Radio Nawigacja Android Opel Insignia 9.7" wifi="" bt="" dsp="" kamera="" 32gb"="" width="300" class="product-img default">
+                <img 2="" src="/assets/products/bmwradio/główny obraz/główny obraz_08.jpg" alt="Radio Nawigacja Android Opel Insignia 9.7" wifi="" bt="" dsp="" kamera="" 32gb"="" width="300" class="product-img hover">
+            </div>
+            
+            <div class="showcase-content">
+                <a href="#" class="showcase-category">Multimedia Samochodowe</a>
+                <a href="produkty/product9.html">
+                    <h3 class="showcase-title">Radio Nawigacja Android Opel Insignia 9.7" WiFi BT DSP Kamera 2/32GB</h3>
+                </a>
+                
+                <div class="showcase-rating">
+                    <ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon>
+                </div>
+                
+                <div class="price-box">
+                    <p class="price">500.00 ZŁ</p>
+                </div>
+                
+                <a href="produkty/product9.html" class="btn-offer">
+                    <span>Zobacz ofertę</span>
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </a>
+                <br>
+            </div>
+        </div>
+    
+        <div class="no-results-message" style="display: none; text-align: center; grid-column: 1 / -1; padding: 40px;">
+            <ion-icon name="search-outline" style="font-size: 60px; color: #ccc;"></ion-icon>
+            <h3>Nie znaleziono produktów</h3>
+            <p>Spróbuj zmienić kryteria wyszukiwania</p>
+        </div>
+    </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+  <footer>
+      
+    
+    <div class="footer-bottom">
+      <div class="container">
+        <img src="/assets/images/payment.png" alt="payment method" class="payment-img">
+        <p class="copyright">
+          Copyright © Wszelkie prawa zastrzeżone.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script src="./assets/js/script.js"></script>
+  <script src="./assets/js/script.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule="" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script>
+        // Ustawiamy czas końcowy na 7 dni od teraz
+        const countDownDate = new Date();
+        countDownDate.setDate(countDownDate.getDate() + 7);
+        countDownDate.setHours(23, 59, 59, 0); // Ustaw na koniec dnia
+
+        // Funkcja aktualizująca timer
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+
+            // Obliczenia dla dni, godzin, minut i sekund
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Aktualizacja elementów HTML
+            document.getElementById("days").textContent = days.toString().padStart(2, '0');
+            document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
+
+            // Efekt pulsowania gdy zostanie mniej niż 5 minut
+            const countdownContents = document.querySelectorAll('.countdown-content');
+            if (distance < 5 * 60 * 1000) { // Mniej niż 5 minut
+                countdownContents.forEach(content => content.classList.add('urgent'));
+            } else {
+                countdownContents.forEach(content => content.classList.remove('urgent'));
+            }
+
+            // Jeśli timer się skończył
+            if (distance < 0) {
+                clearInterval(countdownTimer);
+                document.getElementById("days").textContent = "00";
+                document.getElementById("hours").textContent = "00";
+                document.getElementById("minutes").textContent = "00";
+                document.getElementById("seconds").textContent = "00";
+                
+                // Zmień tytuł
+                document.querySelector('.countdown-title').textContent = "Oferta wygasła!";
+                document.querySelector('.countdown-title').style.color = "#dc3545";
+                
+                // Zmień kolor wszystkich bloków na szary
+                countdownContents.forEach(content => {
+                    content.style.background = "#6c757d";
+                    content.classList.remove('urgent');
+                });
+            }
+        }
+
+        // Aktualizuj timer co sekundę
+        updateCountdown(); // Wywołaj od razu, żeby uniknąć opóźnienia
+        const countdownTimer = setInterval(updateCountdown, 1000);
+    </script>
+
+
+
+<style>
+
+/* Wyszukiwanie i filtry */
+.search-filters-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.search-box {
+    margin-bottom: 20px;
+}
+
+.filter-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.price-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.price-filter label {
+    font-weight: 500;
+    color: #333;
+}
+
+.price-filter input {
+    width: 100px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.price-filter input:focus {
+    border-color: #3a86ff;
+    outline: none;
+}
+
+.btn-filter {
+    background: #3a86ff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.btn-filter:hover {
+    background: #2667cc;
+}
+
+.btn-reset {
+    background: #6c757d;
+}
+
+.btn-reset:hover {
+    background: #545b62;
+}
+
+.sort-box select {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+    font-size: 14px;
+    min-width: 200px;
+    cursor: pointer;
+}
+
+.search-info {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border-left: 4px solid #3a86ff;
+}
+
+#searchResultsInfo {
+    margin: 0;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Komunikat braku wyników */
+.no-products-found {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.no-products-found ion-icon {
+    font-size: 60px;
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+.no-products-found h3 {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.no-products-found p {
+    color: #999;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .filter-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .price-filter {
+        justify-content: center;
+    }
+    
+    .price-filter input {
+        width: 80px;
+    }
+    
+    .sort-box select {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+</style></body></html>
