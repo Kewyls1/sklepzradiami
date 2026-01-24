@@ -25,7 +25,6 @@
         .container { max-width: 1000px; margin: 0 auto; padding: 0 20px 40px; display: grid; grid-template-columns: 1fr 400px; gap: 40px; }
         @media (max-width: 850px) { .container { grid-template-columns: 1fr; } }
 
-        /* SEKCJE FORMULARZA */
         .section-title { font-size: 13px; font-weight: 700; color: var(--text-muted); margin: 25px 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px; }
 
         .input-group-container { 
@@ -47,7 +46,6 @@
         }
         .input-field::placeholder { color: #aaa; }
 
-        /* METODA DOSTAWY */
         .delivery-container { border: 1px solid var(--border-color); border-radius: 12px; background: white; overflow: hidden; }
         .delivery-item { 
             display: flex; align-items: center; padding: 18px; 
@@ -61,24 +59,22 @@
         .delivery-text span { font-size: 12px; color: #888; }
         .delivery-price { font-weight: 700; font-size: 15px; color: var(--primary-color); }
 
-        /* STRIPE ELEMENT */
         #payment-element { 
             margin-top: 5px; 
             padding: 10px 0; 
-            min-height: 150px; /* Dodane - ważne dla montowania */
+            min-height: 150px;
             border: 1px solid #e6e6e6;
             border-radius: 12px;
             background: white;
             padding: 20px;
         }
 
-        /* PODSUMOWANIE */
         .product-summary { 
             background: white; border-radius: 16px; padding: 30px; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.05); height: fit-content;
             position: sticky; top: 20px;
         }
-        .product-image { width: 100%; border-radius: 12px; margin-bottom: 25px; border: 1px solid #f0f0f0; }
+        .product-image { width: 100%; border-radius: 12px; margin-bottom: 25px; border: 1px solid #f0f0f0; max-height: 200px; object-fit: contain; }
         .product-name { font-size: 18px; font-weight: 600; margin-bottom: 15px; line-height: 1.4; }
         .price-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 15px; color: var(--text-muted); }
         .total-row { 
@@ -87,7 +83,6 @@
             font-size: 24px; font-weight: 700; color: var(--primary-color); 
         }
 
-        /* PRZYCISK */
         .stripe-button { 
             width: 100%; background: var(--stripe-blue); color: white; border: none; 
             padding: 20px; border-radius: 12px; font-size: 17px; font-weight: 600; 
@@ -104,7 +99,6 @@
             background: #ffe3e3; border: 1px solid #ff6b6b; border-radius: 8px;
         }
         
-        /* Loading overlay */
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -138,6 +132,22 @@
             margin-top: 5px;
             display: block;
         }
+        
+        .validation-error {
+            border: 1px solid #ff6b6b !important;
+            background: #fff5f5 !important;
+        }
+        
+        .success-message {
+            color: #28a745;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -158,6 +168,7 @@
                     <input type="email" id="email" class="input-field" placeholder="Adres e-mail" required>
                 </div>
             </div>
+            <div class="form-hint">Na ten adres wyślemy potwierdzenie zamówienia</div>
 
             <div class="section-title">Adres dostawy</div>
             <div class="input-group-container">
@@ -171,6 +182,7 @@
                 </div>
                 <div class="input-row"><input type="tel" id="phone" class="input-field" placeholder="Numer telefonu" required></div>
             </div>
+            <div class="form-hint">Wszystkie pola są wymagane oprócz drugiej linii adresu</div>
 
             <div class="section-title">Metoda dostawy</div>
             <div class="delivery-container">
@@ -188,36 +200,45 @@
 
             <div class="section-title">Płatność bezpieczna</div>
             <div id="payment-element"></div>
+            <div class="form-hint">Wszystkie płatności są szyfrowane i bezpieczne</div>
 
             <button type="submit" class="stripe-button" id="submit-btn">Zapłać teraz</button>
             <div id="error-message"></div>
+            <div id="success-message" class="success-message"></div>
         </form>
     </div>
 
     <div class="product-summary">
-        <img id="sum-img" class="product-image" src="" alt="Produkt">
+        <img id="sum-img" class="product-image" src="" alt="Produkt" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9IiNmMGYwZjAiPjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIi8+PHRleHQgeD0iNTAiIHk9IjEwMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjY2NjIj5CcmFrIG9icmF6a8SFPzwvdGV4dD48L3N2Zz4=';">
         <h3 id="sum-name" class="product-name">Produkt</h3>
         <div class="price-row"><span>Cena produktu:</span><span id="sum-price">0.00 PLN</span></div>
         <div class="price-row"><span>Dostawa:</span><span>1.00 PLN</span></div>
         <div class="total-row"><span>Suma:</span><span id="sum-total">0.00 PLN</span></div>
+        <div style="font-size: 12px; color: #888; margin-top: 15px; text-align: center;">
+            <p>✓ Płatność bezpieczna</p>
+            <p>✓ Szyfrowanie SSL</p>
+            <p>✓ 14-dniowy zwrot</p>
+        </div>
     </div>
 </div>
 
 <script>
-    // WAŻNE: Użyj dokładnie tego kodu który wcześniej działał
+    // Inicjalizacja Stripe - klucz zostanie wstrzyknięty przez serwer
     const stripe = Stripe('pk_test_51SRFlGETbCF5SCca4luNtP4tBkN1g7ObCeyCLPd6xRVRhGx9RCBj2cEv4kYlkU24pWE4rvocABJRuhNaz1PFmZfM00udXcfGvc');
     
     // Zmienne globalne
     let elements;
     let paymentIntentId;
     let isPaymentInitialized = false;
-    let paymentElementInstance;
+    let paymentElementInstance = null;
+    let currentClientSecret = null;
 
-    // Pobranie parametrów
+    // Pobranie parametrów z URL
     const params = new URLSearchParams(window.location.search);
     const pPrice = parseFloat(params.get('price') || '0');
     const pName = decodeURIComponent(params.get('name') || 'Produkt');
     const pImage = decodeURIComponent(params.get('image') || '');
+    const pQuantity = params.get('quantity') || '1';
 
     // Aktualizacja podsumowania
     document.getElementById('sum-img').src = pImage;
@@ -225,7 +246,107 @@
     document.getElementById('sum-price').textContent = pPrice.toFixed(2) + " PLN";
     document.getElementById('sum-total').textContent = (pPrice + 1).toFixed(2) + " PLN";
 
-    // Wczytanie danych z localStorage
+    // Funkcje pomocnicze
+    function showLoading(show) {
+        document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
+    }
+
+    function showError(message) {
+        const errorElement = document.getElementById('error-message');
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+        setTimeout(() => errorElement.style.display = 'none', 10000);
+    }
+
+    function showSuccess(message) {
+        const successElement = document.getElementById('success-message');
+        successElement.textContent = message;
+        successElement.style.display = 'block';
+    }
+
+    function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function validatePhone(phone) {
+        const cleanPhone = phone.replace(/\s/g, '');
+        return /^[\+]?[0-9\s\-\(\)]{9,15}$/.test(cleanPhone);
+    }
+
+    function validateZip(zip) {
+        return /^\d{2}-\d{3}$/.test(zip);
+    }
+
+    function validateForm() {
+        const email = document.getElementById('email').value.trim();
+        const fullName = document.getElementById('full-name').value.trim();
+        const address1 = document.getElementById('address1').value.trim();
+        const zip = document.getElementById('zip').value.trim();
+        const city = document.getElementById('city').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+
+        let isValid = true;
+        const fields = ['email', 'full-name', 'address1', 'zip', 'city', 'phone'];
+        
+        // Resetuj błędy
+        fields.forEach(id => {
+            document.getElementById(id).classList.remove('validation-error');
+        });
+
+        if (!email || !validateEmail(email)) {
+            document.getElementById('email').classList.add('validation-error');
+            showError('Proszę podać poprawny adres e-mail');
+            isValid = false;
+        }
+
+        if (!fullName || fullName.length < 3) {
+            document.getElementById('full-name').classList.add('validation-error');
+            showError('Proszę podać imię i nazwisko (min. 3 znaki)');
+            isValid = false;
+        }
+
+        if (!address1 || address1.length < 5) {
+            document.getElementById('address1').classList.add('validation-error');
+            showError('Proszę podać pełny adres (min. 5 znaków)');
+            isValid = false;
+        }
+
+        if (!zip || !validateZip(zip)) {
+            document.getElementById('zip').classList.add('validation-error');
+            showError('Proszę podać kod pocztowy w formacie XX-XXX');
+            isValid = false;
+        }
+
+        if (!city || city.length < 2) {
+            document.getElementById('city').classList.add('validation-error');
+            showError('Proszę podać nazwę miasta');
+            isValid = false;
+        }
+
+        if (!phone || !validatePhone(phone)) {
+            document.getElementById('phone').classList.add('validation-error');
+            showError('Proszę podać poprawny numer telefonu (9-15 cyfr)');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    function saveFormData() {
+        const formData = {
+            email: document.getElementById('email').value,
+            fullName: document.getElementById('full-name').value,
+            address1: document.getElementById('address1').value,
+            address2: document.getElementById('address2').value,
+            zip: document.getElementById('zip').value,
+            city: document.getElementById('city').value,
+            phone: document.getElementById('phone').value,
+            delivery: document.querySelector('input[name="delivery"]:checked').value,
+            product: { name: pName, price: pPrice, image: pImage }
+        };
+        localStorage.setItem('checkoutFormData', JSON.stringify(formData));
+    }
+
     function loadSavedFormData() {
         try {
             const savedData = localStorage.getItem('checkoutFormData');
@@ -238,68 +359,24 @@
                 document.getElementById('zip').value = data.zip || '';
                 document.getElementById('city').value = data.city || '';
                 document.getElementById('phone').value = data.phone || '';
+                
+                if (data.delivery) {
+                    document.querySelectorAll('input[name="delivery"]').forEach(radio => {
+                        if (radio.value === data.delivery) radio.checked = true;
+                    });
+                }
             }
         } catch (e) {
-            console.error('Błąd wczytywania danych:', e);
+            console.log('Brak zapisanych danych lub błąd parsowania');
         }
     }
 
-    // Zapisywanie danych
-    function saveFormData() {
-        const formData = {
-            email: document.getElementById('email').value,
-            fullName: document.getElementById('full-name').value,
-            address1: document.getElementById('address1').value,
-            address2: document.getElementById('address2').value,
-            zip: document.getElementById('zip').value,
-            city: document.getElementById('city').value,
-            phone: document.getElementById('phone').value
-        };
-        localStorage.setItem('checkoutFormData', JSON.stringify(formData));
-    }
-
-    // Walidacja formularza
-    function validateForm() {
-        const email = document.getElementById('email').value;
-        const fullName = document.getElementById('full-name').value;
-        const address1 = document.getElementById('address1').value;
-        const zip = document.getElementById('zip').value;
-        const city = document.getElementById('city').value;
-        const phone = document.getElementById('phone').value;
-
-        if (!email || !validateEmail(email)) {
-            showError('Proszę podać poprawny adres e-mail');
-            return false;
-        }
-        if (!fullName || fullName.trim().length < 3) {
-            showError('Proszę podać imię i nazwisko (min. 3 znaki)');
-            return false;
-        }
-        if (!address1 || address1.trim().length < 5) {
-            showError('Proszę podać pełny adres');
-            return false;
-        }
-        if (!zip || !validateZip(zip)) {
-            showError('Proszę podać kod pocztowy w formacie XX-XXX');
-            return false;
-        }
-        if (!city || city.trim().length < 2) {
-            showError('Proszę podać nazwę miasta');
-            return false;
-        }
-        if (!phone || !validatePhone(phone)) {
-            showError('Proszę podać poprawny numer telefonu (9-15 cyfr)');
-            return false;
-        }
-
-        return true;
-    }
-
-    // Inicjalizacja płatności - NIE ZMIENIAJ TEGO!
+    // GŁÓWNA FUNKCJA: Inicjalizacja płatności
     async function initializePayment() {
         try {
             showLoading(true);
             
+            // Pobierz dane z formularza
             const email = document.getElementById('email').value;
             const fullName = document.getElementById('full-name').value;
             const address1 = document.getElementById('address1').value;
@@ -309,14 +386,15 @@
             const phone = document.getElementById('phone').value;
             const delivery = document.querySelector('input[name="delivery"]:checked').value;
 
-            // Tworzenie PaymentIntent
+            console.log('🔄 Tworzenie PaymentIntent...');
+
+            // Wywołaj backend
             const response = await fetch('/create-payment-intent', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     productPrice: pPrice,
                     productName: pName,
-                    productImage: pImage,
                     email: email,
                     fullName: fullName,
                     address1: address1,
@@ -330,20 +408,28 @@
 
             if (!response.ok) {
                 const error = await response.json();
-                throw new Error(error.error || 'Błąd tworzenia płatności');
+                throw new Error(error.error || `Błąd serwera: ${response.status}`);
             }
 
             const result = await response.json();
             
             if (!result.clientSecret) {
-                throw new Error('Brak clientSecret w odpowiedzi serwera');
+                throw new Error('Brak clientSecret w odpowiedzi');
             }
 
             paymentIntentId = result.paymentIntentId;
+            currentClientSecret = result.clientSecret;
 
-            // KLUCZOWE: Inicjalizacja Stripe Elements
+            // Jeśli istnieje poprzedni element, usuń go
+            if (paymentElementInstance) {
+                try {
+                    paymentElementInstance.unmount();
+                } catch (e) {}
+            }
+
+            // Inicjalizuj Stripe Elements
             elements = stripe.elements({ 
-                clientSecret: result.clientSecret,
+                clientSecret: currentClientSecret,
                 appearance: {
                     theme: 'stripe',
                     variables: {
@@ -358,44 +444,37 @@
                 }
             });
 
-            // Tworzenie PaymentElement
+            // Utwórz i zamontuj PaymentElement
             paymentElementInstance = elements.create("payment", { 
-                layout: {
-                    type: 'tabs',
-                    defaultCollapsed: false
-                }
+                layout: { type: 'tabs', defaultCollapsed: false }
             });
             
-            // Montowanie elementu - TO JEST NAJWAŻNIEJSZE!
-            paymentElementInstance.mount("#payment-element");
+            await paymentElementInstance.mount("#payment-element");
+            
+            // Poczekaj na załadowanie iframe
+            await new Promise(resolve => setTimeout(resolve, 800));
             
             isPaymentInitialized = true;
             showLoading(false);
             
-            console.log('✅ PaymentElement zamontowany');
+            console.log('✅ PaymentElement zainicjalizowany i zamontowany');
             return true;
             
         } catch (error) {
-            console.error('❌ Błąd inicjalizacji:', error);
-            showError('Błąd inicjalizacji płatności: ' + error.message);
+            console.error('❌ Błąd inicjalizacji płatności:', error);
+            showError('Błąd inicjalizacji: ' + error.message);
             showLoading(false);
             return false;
         }
     }
 
-    // Sprawdzenie czy element jest zamontowany
-    function isPaymentElementMounted() {
-        // Sprawdź czy są iframe w #payment-element
-        const iframes = document.querySelectorAll('#payment-element iframe');
-        return iframes.length > 0;
-    }
-
-    // Główna funkcja obsługi płatności - NIE ZMIENIAJ!
+    // GŁÓWNA FUNKCJA: Obsługa płatności
     async function handleSubmit(e) {
         e.preventDefault();
         
         const btn = document.getElementById('submit-btn');
         const errorElement = document.getElementById('error-message');
+        
         errorElement.textContent = '';
         errorElement.style.display = 'none';
         
@@ -404,7 +483,6 @@
             return;
         }
 
-        // Zapis danych
         saveFormData();
 
         btn.disabled = true;
@@ -412,29 +490,23 @@
         showLoading(true);
 
         try {
-            // Jeśli płatność nie została jeszcze zainicjalizowana
-            if (!isPaymentInitialized || !elements) {
-                console.log('🔄 Inicjalizacja płatności...');
-                const initialized = await initializePayment();
-                if (!initialized) {
-                    btn.disabled = false;
-                    btn.textContent = "Zapłać teraz";
-                    showLoading(false);
-                    return;
-                }
-                
-                // KLUCZOWE: Poczekaj na pełne zamontowanie elementu
-                await new Promise(resolve => setTimeout(resolve, 1000));
+            // Zawsze inicjalizuj przed potwierdzeniem
+            const initialized = await initializePayment();
+            if (!initialized) {
+                throw new Error('Nie udało się zainicjalizować płatności');
             }
 
             // Sprawdź czy element jest zamontowany
-            if (!isPaymentElementMounted()) {
-                throw new Error('Element płatności nie jest jeszcze gotowy. Odśwież stronę i spróbuj ponownie.');
+            const paymentContainer = document.getElementById('payment-element');
+            const iframes = paymentContainer.querySelectorAll('iframe');
+            
+            if (iframes.length === 0) {
+                throw new Error('Element płatności nie jest gotowy. Proszę spróbować ponownie.');
             }
 
             console.log('✅ Potwierdzanie płatności...');
             
-            // KLUCZOWE: Pobierz dane z formularza
+            // Pobierz aktualne dane
             const email = document.getElementById('email').value;
             const fullName = document.getElementById('full-name').value;
             const address1 = document.getElementById('address1').value;
@@ -443,11 +515,11 @@
             const city = document.getElementById('city').value;
             const phone = document.getElementById('phone').value;
 
-            // TO JEST KLUCZOWE - używaj DOKŁADNIE tych parametrów:
+            // Potwierdź płatność
             const { error, paymentIntent } = await stripe.confirmPayment({
                 elements,
                 confirmParams: {
-                    return_url: `${window.location.origin}/success.html?payment_intent=${paymentIntentId}`,
+                    return_url: `${window.location.origin}/success.html?payment_intent=${paymentIntentId}&email=${encodeURIComponent(email)}`,
                     payment_method_data: {
                         billing_details: {
                             name: fullName,
@@ -464,36 +536,50 @@
                     },
                     receipt_email: email
                 },
-                redirect: 'if_required' // WAŻNE: to pozwala na 3D Secure
+                redirect: 'if_required'
             });
 
             if (error) {
                 console.error('❌ Błąd Stripe:', error);
                 
-                if (error.type === "card_error" || error.type === "validation_error") {
-                    showError(error.message);
+                // Szczegółowe komunikaty błędów
+                if (error.type === "card_error") {
+                    showError(`Błąd karty: ${error.message}`);
+                } else if (error.type === "validation_error") {
+                    showError(`Błąd walidacji: ${error.message}`);
                 } else {
-                    showError("Wystąpił nieoczekiwany błąd podczas płatności");
+                    showError(`Błąd płatności: ${error.message}`);
                 }
                 
-                btn.disabled = false;
-                btn.textContent = "Zapłać teraz";
-                showLoading(false);
+                // Aktualizuj status zamówienia na błędny
+                try {
+                    await fetch('/update-order-status', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            paymentIntentId: paymentIntentId,
+                            status: 'failed'
+                        })
+                    });
+                } catch (statusError) {
+                    console.log('Nie udało się zaktualizować statusu');
+                }
+                
                 return;
             }
 
-            // Obsługa różnych statusów płatności
+            // Obsługa statusów płatności
             if (paymentIntent) {
                 switch (paymentIntent.status) {
                     case 'requires_action':
-                        console.log('🔄 Wymagana dodatkowa akcja (3D Secure)');
-                        // Stripe automatycznie obsłuży przekierowanie
-                        return;
+                        console.log('🔄 Wymagana akcja (3D Secure)');
+                        // Stripe automatycznie przekieruje
+                        break;
                         
                     case 'succeeded':
                         console.log('✅ Płatność zakończona sukcesem!');
                         
-                        // Aktualizacja statusu zamówienia
+                        // Aktualizuj status
                         await fetch('/update-order-status', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -503,30 +589,50 @@
                             })
                         });
                         
-                        // Przekierowanie do strony sukcesu
-                        window.location.href = `/success.html?payment_intent=${paymentIntentId}`;
-                        return;
+                        // Przekieruj do sukcesu
+                        window.location.href = `/success.html?payment_intent=${paymentIntentId}&email=${encodeURIComponent(email)}`;
+                        break;
+                        
+                    case 'processing':
+                        showSuccess('Płatność jest przetwarzana. Proszę czekać...');
+                        // Możesz automatycznie przekierować po chwili
+                        setTimeout(() => {
+                            window.location.href = `/success.html?payment_intent=${paymentIntentId}&email=${encodeURIComponent(email)}&processing=true`;
+                        }, 3000);
+                        break;
                         
                     default:
-                        console.log('❌ Płatność nie powiodła się, status:', paymentIntent.status);
-                        showError('Płatność nie powiodła się. Spróbuj ponownie.');
+                        console.log('❌ Status płatności:', paymentIntent.status);
+                        showError(`Płatność nie powiodła się (status: ${paymentIntent.status})`);
                         break;
                 }
+            } else {
+                showError('Nie otrzymano potwierdzenia płatności. Spróbuj ponownie.');
             }
             
         } catch (error) {
             console.error('❌ Błąd płatności:', error);
             showError('Błąd podczas przetwarzania płatności: ' + error.message);
+        } finally {
             btn.disabled = false;
             btn.textContent = "Zapłać teraz";
             showLoading(false);
         }
     }
 
-    // Automatyczna inicjalizacja jeśli formularz jest poprawny
-    function autoInitializeIfFormValid() {
-        if (validateForm() && !isPaymentInitialized) {
-            console.log('🔄 Automatyczna inicjalizacja...');
+    // Automatyczna inicjalizacja gdy formularz jest wypełniony
+    function autoInitializeIfReady() {
+        const email = document.getElementById('email').value;
+        const fullName = document.getElementById('full-name').value;
+        const address1 = document.getElementById('address1').value;
+        const zip = document.getElementById('zip').value;
+        const city = document.getElementById('city').value;
+        const phone = document.getElementById('phone').value;
+
+        const isFormValid = email && fullName && address1 && zip && city && phone;
+        
+        if (isFormValid && !isPaymentInitialized) {
+            console.log('🔄 Automatyczna inicjalizacja płatności...');
             initializePayment().then(success => {
                 if (success) {
                     console.log('✅ Automatyczna inicjalizacja zakończona');
@@ -535,93 +641,64 @@
         }
     }
 
-    // Wyświetlanie błędów
-    function showError(message) {
-        const errorElement = document.getElementById('error-message');
-        errorElement.textContent = message;
-        errorElement.style.display = 'block';
-        
-        setTimeout(() => {
-            errorElement.style.display = 'none';
-        }, 10000);
-    }
-
-    // Pokazywanie/ukrywanie ładowania
-    function showLoading(show) {
-        const overlay = document.getElementById('loadingOverlay');
-        overlay.style.display = show ? 'flex' : 'none';
-    }
-
-    // Walidacja email
-    function validateEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
-    // Walidacja telefonu
-    function validatePhone(phone) {
-        const phoneRegex = /^[\+]?[0-9\s\-\(\)]{9,15}$/;
-        return phoneRegex.test(phone.replace(/\s/g, ''));
-    }
-
-    // Walidacja kodu pocztowego
-    function validateZip(zip) {
-        const zipRegex = /^\d{2}-\d{3}$/;
-        return zipRegex.test(zip);
-    }
-
-    // Inicjalizacja po załadowaniu strony
+    // Inicjalizacja strony
     document.addEventListener('DOMContentLoaded', () => {
+        console.log('💰 Strona płatności załadowana');
+        console.log('📦 Produkt:', pName, 'Cena:', pPrice);
+        
         // Wczytaj zapisane dane
         loadSavedFormData();
         
-        // Event listener dla formularza
+        // Ustaw nasłuchiwacze
         document.getElementById('payment-form').addEventListener('submit', handleSubmit);
         
-        // Auto-save form data on change
+        // Auto-save i auto-inicjalizacja
         const formFields = ['email', 'full-name', 'address1', 'address2', 'zip', 'city', 'phone'];
         formFields.forEach(fieldId => {
             const field = document.getElementById(fieldId);
             if (field) {
                 field.addEventListener('input', () => {
                     saveFormData();
-                    // Automatyczna inicjalizacja po wypełnieniu formularza
-                    autoInitializeIfFormValid();
+                    autoInitializeIfReady();
                 });
             }
         });
         
-        // Walidacja w czasie rzeczywistym
+        // Walidacja na bieżąco
         document.getElementById('email').addEventListener('blur', function() {
             if (this.value && !validateEmail(this.value)) {
-                showError('Proszę podać poprawny adres email');
-            }
-        });
-
-        document.getElementById('phone').addEventListener('blur', function() {
-            if (this.value && !validatePhone(this.value)) {
-                showError('Proszę podać poprawny numer telefonu');
+                this.classList.add('validation-error');
+                showError('Nieprawidłowy format email');
+            } else {
+                this.classList.remove('validation-error');
             }
         });
 
         document.getElementById('zip').addEventListener('blur', function() {
             if (this.value && !validateZip(this.value)) {
-                showError('Proszę podać kod pocztowy w formacie XX-XXX');
+                this.classList.add('validation-error');
+                showError('Kod pocztowy musi być w formacie XX-XXX');
+            } else {
+                this.classList.remove('validation-error');
+            }
+        });
+
+        document.getElementById('phone').addEventListener('blur', function() {
+            if (this.value && !validatePhone(this.value)) {
+                this.classList.add('validation-error');
+                showError('Nieprawidłowy numer telefonu (9-15 cyfr)');
+            } else {
+                this.classList.remove('validation-error');
             }
         });
         
-        // Handler dla zmiany metody dostawy
-        document.querySelectorAll('input[name="delivery"]').forEach(radio => {
-            radio.addEventListener('change', saveFormData);
-        });
-        
-        // Automatyczna inicjalizacja po 2 sekundach jeśli formularz jest wypełniony
+        // Automatyczna inicjalizacja po 3 sekundach jeśli formularz jest wypełniony
         setTimeout(() => {
-            if (validateForm() && !isPaymentInitialized) {
-                console.log('🔄 Automatyczna inicjalizacja po 2s...');
-                initializePayment();
-            }
-        }, 2000);
+            autoInitializeIfReady();
+        }, 3000);
+        
+        // Informacja debug
+        console.log('✅ Strona płatności gotowa');
     });
 </script>
 </body>
