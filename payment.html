@@ -62,7 +62,15 @@
         .delivery-price { font-weight: 700; font-size: 15px; color: var(--primary-color); }
 
         /* STRIPE ELEMENT */
-        #payment-element { margin-top: 5px; padding: 10px 0; }
+        #payment-element { 
+            margin-top: 5px; 
+            padding: 10px 0; 
+            min-height: 150px; /* Zapewnia miejsce na element */
+            border: 1px solid #e6e6e6;
+            border-radius: 12px;
+            background: white;
+            padding: 20px;
+        }
 
         /* PODSUMOWANIE */
         .product-summary { 
@@ -130,8 +138,6 @@
             margin-top: 5px;
             display: block;
         }
-
-        .stripe-payment-complete { display: none; }
     </style>
 </head>
 <body>
@@ -185,10 +191,6 @@
 
             <button type="submit" class="stripe-button" id="submit-btn">Zapłać teraz</button>
             <div id="error-message"></div>
-            
-            <div id="payment-status" style="display: none; margin-top: 20px; padding: 15px; border-radius: 8px; background: #f8f9fa; text-align: center;">
-                <p>Płatność przetwarzana...</p>
-            </div>
         </form>
     </div>
 
@@ -202,15 +204,13 @@
 </div>
 
 <script>
-    // Inicjalizacja Stripe z kluczem publicznym
+    // KLUCZOWA ZMIANA: Uproszczony i naprawiony kod
     const stripe = Stripe('pk_test_51SRFlGETbCF5SCca4luNtP4tBkN1g7ObCeyCLPd6xRVRhGx9RCBj2cEv4kYlkU24pWE4rvocABJRuhNaz1PFmZfM00udXcfGvc');
     
-    // Zmienne globalne
-    let elements;
-    let paymentIntentClientSecret;
-    let paymentIntentId;
-    let isPaymentElementMounted = false;
-    let paymentElement;
+    // Zmienne globalne - JEDNA instancja elements
+    let elements = null;
+    let paymentIntentId = null;
+    let isInitialized = false;
 
     // Pobranie parametrów z URL
     const params = new URLSearchParams(window.location.search);
@@ -224,7 +224,7 @@
     document.getElementById('sum-price').textContent = pPrice.toFixed(2) + " PLN";
     document.getElementById('sum-total').textContent = (pPrice + 1).toFixed(2) + " PLN";
 
-    // Wczytanie zapisanych danych z localStorage
+    // Wczytanie zapisanych danych
     function loadSavedFormData() {
         const savedData = localStorage.getItem('checkoutFormData');
         if (savedData) {
@@ -237,18 +237,13 @@
                 document.getElementById('zip').value = data.zip || '';
                 document.getElementById('city').value = data.city || '';
                 document.getElementById('phone').value = data.phone || '';
-                
-                // Inicjalizacja płatności jeśli formularz jest wypełniony
-                if (data.email && validateEmail(data.email)) {
-                    setTimeout(() => initializePaymentIfFormValid(), 500);
-                }
             } catch (e) {
                 console.error('Błąd wczytywania danych:', e);
             }
         }
     }
 
-    // Zapisywanie danych do localStorage
+    // Zapisywanie danych
     function saveFormData() {
         const formData = {
             email: document.getElementById('email').value,
@@ -299,8 +294,13 @@
         return true;
     }
 
-    // Inicjalizacja płatności
+    // KLUCZOWA FUNKCJA: Inicjalizacja płatności - TYLKO RAZ
     async function initializePayment() {
+        if (isInitialized) {
+            console.log('Płatność już zainicjalizowana');
+            return true;
+        }
+
         try {
             showLoading(true);
             
@@ -313,13 +313,10 @@
             const phone = document.getElementById('phone').value;
             const delivery = document.querySelector('input[name="delivery"]:checked').value;
 
-            // Tworzenie PaymentIntent na serwerze
+            // Tworzenie PaymentIntent
             const response = await fetch('/create-payment-intent', {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     productPrice: pPrice,
                     productName: pName,
@@ -346,12 +343,11 @@
                 throw new Error('Brak clientSecret w odpowiedzi serwera');
             }
 
-            paymentIntentClientSecret = result.clientSecret;
             paymentIntentId = result.paymentIntentId;
 
-            // Inicjalizacja Stripe Elements
+            // INICJALIZACJA ELEMENTS - TYLKO RAZ
             elements = stripe.elements({ 
-                clientSecret: paymentIntentClientSecret,
+                clientSecret: result.clientSecret,
                 appearance: {
                     theme: 'stripe',
                     variables: {
@@ -366,25 +362,25 @@
                 }
             });
 
-            // Tworzenie PaymentElement
-            paymentElement = elements.create("payment", { 
+            // TWORZENIE I MONTŻ PAYMENTELEMENT
+            const paymentElement = elements.create("payment", { 
                 layout: {
                     type: 'tabs',
                     defaultCollapsed: false
                 }
             });
             
-            // Montowanie elementu
-            await paymentElement.mount("#payment-element");
-            isPaymentElementMounted = true;
+            // MONTUJEMY ELEMENT
+            paymentElement.mount("#payment-element");
             
-            console.log('Stripe PaymentElement zamontowany pomyślnie');
+            isInitialized = true;
             showLoading(false);
             
+            console.log('✅ Stripe PaymentElement zainicjalizowany i zamontowany');
             return true;
             
         } catch (error) {
-            console.error('Błąd inicjalizacji płatności:', error);
+            console.error('❌ Błąd inicjalizacji płatności:', error);
             showError('Błąd inicjalizacji płatności: ' + error.message);
             showLoading(false);
             return false;
@@ -392,12 +388,15 @@
     }
 
     // Sprawdzenie czy element jest zamontowany
-    function isPaymentElementReady() {
-        // Sprawdzamy czy element Stripe jest widoczny w DOM
-        const stripeElements = document.querySelectorAll('#payment-element .StripeElement');
+    function checkIfElementMounted() {
+        // Sprawdzamy czy są iframe wewnątrz #payment-element
         const iframes = document.querySelectorAll('#payment-element iframe');
+        const stripeElements = document.querySelectorAll('#payment-element .StripeElement');
         
-        return isPaymentElementMounted && stripeElements.length > 0 && iframes.length > 0;
+        console.log('Iframes w payment-element:', iframes.length);
+        console.log('StripeElements w payment-element:', stripeElements.length);
+        
+        return iframes.length > 0 || stripeElements.length > 0;
     }
 
     // Główna funkcja obsługi płatności
@@ -422,9 +421,9 @@
         showLoading(true);
 
         try {
-            // Jeśli płatność nie została jeszcze zainicjalizowana
-            if (!elements || !isPaymentElementMounted) {
-                console.log('Inicjalizacja płatności...');
+            // 1. Inicjalizacja jeśli jeszcze nie zainicjalizowana
+            if (!isInitialized) {
+                console.log('🔄 Inicjalizacja płatności...');
                 const initialized = await initializePayment();
                 if (!initialized) {
                     btn.disabled = false;
@@ -433,33 +432,32 @@
                     return;
                 }
                 
-                // Poczekaj chwilę na pełne zamontowanie elementu
+                // Czekamy 500ms na pełne zamontowanie elementu
                 await new Promise(resolve => setTimeout(resolve, 500));
             }
 
-            // Sprawdź czy element jest gotowy
-            if (!isPaymentElementReady()) {
-                throw new Error('Element płatności nie jest jeszcze gotowy. Spróbuj ponownie.');
+            // 2. Sprawdzamy czy element jest zamontowany
+            if (!checkIfElementMounted()) {
+                throw new Error('Element płatności nie jest jeszcze zamontowany. Odśwież stronę i spróbuj ponownie.');
             }
 
-            console.log('Potwierdzanie płatności...');
+            console.log('✅ Element jest zamontowany, potwierdzanie płatności...');
             
-            // Potwierdzenie płatności
-            const { error, paymentIntent } = await stripe.confirmPayment({
-                elements,
+            // 3. KLUCZOWE: Przekazujemy obiekt elements do confirmPayment
+            const { error } = await stripe.confirmPayment({
+                elements, // TO JEST NAJWAŻNIEJSZE!
                 confirmParams: {
                     return_url: `${window.location.origin}/success.html?payment_intent=${paymentIntentId}`,
-                },
-                redirect: 'if_required'
+                }
             });
 
             if (error) {
-                console.error('Błąd Stripe:', error);
+                console.error('❌ Błąd Stripe:', error);
                 
                 if (error.type === "card_error" || error.type === "validation_error") {
                     showError(error.message);
                 } else {
-                    showError("Wystąpił nieoczekiwany błąd podczas płatności: " + error.message);
+                    showError("Wystąpił nieoczekiwany błąd podczas płatności");
                 }
                 
                 btn.disabled = false;
@@ -468,36 +466,11 @@
                 return;
             }
 
-            // Płatność wymaga dodatkowej akcji (np. 3D Secure)
-            if (paymentIntent && paymentIntent.status === 'requires_action') {
-                console.log('Wymagana dodatkowa akcja (np. 3D Secure)');
-                // Stripe automatycznie przekieruje do strony 3D Secure
-                return;
-            }
-            
-            // Płatność zakończona sukcesem
-            if (paymentIntent && paymentIntent.status === 'succeeded') {
-                console.log('Płatność zakończona sukcesem!');
-                // Aktualizacja statusu zamówienia
-                await fetch('/update-order-status', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        paymentIntentId: paymentIntentId,
-                        status: 'succeeded'
-                    })
-                });
-                
-                // Przekierowanie do strony sukcesu
-                window.location.href = `/success.html?payment_intent=${paymentIntentId}`;
-                return;
-            }
-
-            // Jeśli doszliśmy tutaj, ale nie ma błędu ani sukcesu
-            console.log('Status płatności:', paymentIntent?.status);
+            // Jeśli doszliśmy tutaj, płatność została potwierdzona
+            console.log('✅ Płatność potwierdzona, przekierowanie...');
             
         } catch (error) {
-            console.error('Błąd płatności:', error);
+            console.error('❌ Błąd płatności:', error);
             showError('Błąd podczas przetwarzania płatności: ' + error.message);
             btn.disabled = false;
             btn.textContent = "Zapłać teraz";
@@ -505,15 +478,11 @@
         }
     }
 
-    // Automatyczna inicjalizacja jeśli formularz jest poprawny
-    function initializePaymentIfFormValid() {
-        if (validateForm() && !elements) {
-            console.log('Automatyczna inicjalizacja płatności...');
-            initializePayment().then(success => {
-                if (success) {
-                    console.log('Automatyczna inicjalizacja zakończona sukcesem');
-                }
-            });
+    // Automatyczna inicjalizacja
+    function autoInitializeIfFormValid() {
+        if (validateForm() && !isInitialized) {
+            console.log('🔄 Automatyczna inicjalizacja...');
+            initializePayment();
         }
     }
 
@@ -523,7 +492,6 @@
         errorElement.textContent = message;
         errorElement.style.display = 'block';
         
-        // Automatyczne ukrycie po 10 sekundach
         setTimeout(() => {
             errorElement.style.display = 'none';
         }, 10000);
@@ -568,12 +536,9 @@
             if (field) {
                 field.addEventListener('input', () => {
                     saveFormData();
-                    // Jeśli pole email zostało zmienione i jest poprawne, zainicjalizuj płatność
-                    if (fieldId === 'email' && validateEmail(field.value)) {
-                        setTimeout(initializePaymentIfFormValid, 1000);
-                    }
+                    // Automatyczna inicjalizacja po wypełnieniu formularza
+                    autoInitializeIfFormValid();
                 });
-                field.addEventListener('change', saveFormData);
             }
         });
         
@@ -586,7 +551,7 @@
 
         document.getElementById('phone').addEventListener('blur', function() {
             if (this.value && !validatePhone(this.value)) {
-                showError('Proszę podać poprawny numer telefonu (9-15 cyfr)');
+                showError('Proszę podać poprawny numer telefonu');
             }
         });
 
@@ -601,8 +566,8 @@
             radio.addEventListener('change', saveFormData);
         });
         
-        // Automatyczna inicjalizacja po 2 sekundach jeśli formularz jest wypełniony
-        setTimeout(initializePaymentIfFormValid, 2000);
+        // Automatyczna inicjalizacja po 1 sekundzie jeśli formularz jest wypełniony
+        setTimeout(autoInitializeIfFormValid, 1000);
     });
 </script>
 </body>
