@@ -1,5 +1,6 @@
-// server.js - WERSJA Z .env
+// server.js - WERSJA Z .env I VERCEL POSTGRES
 require('dotenv').config(); // Dodaj na początku pliku
+const { sql } = require('@vercel/postgres'); // Import bazy danych
 
 // Najpierw naprawmy problem z File - użyj natywnej implementacji z Node.js 18+
 if (typeof global.File === 'undefined') {
@@ -72,30 +73,43 @@ app.use('/assets/products', express.static(path.join(__dirname, 'assets/products
 
 app.use(express.json());
 
-// Endpoint do zapisu zamówień
-const ORDERS_FILE = 'orders.json';
-
-// Funkcja zapisująca zamówienie
-function saveOrder(orderData) {
-    let orders = [];
-    if (fs.existsSync(ORDERS_FILE)) {
-        orders = JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf8'));
+// Funkcja zapisująca zamówienie do Vercel Postgres
+async function saveOrder(orderData) {
+    try {
+        await sql`
+            CREATE TABLE IF NOT EXISTS orders (
+                id SERIAL PRIMARY KEY,
+                payment_intent_id TEXT,
+                amount DECIMAL(10, 2),
+                product_name TEXT,
+                email TEXT,
+                full_name TEXT,
+                address TEXT,
+                status TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `;
+        await sql`
+            INSERT INTO orders (payment_intent_id, amount, product_name, email, full_name, address, status)
+            VALUES (${orderData.paymentIntentId}, ${orderData.amount}, ${orderData.productName}, ${orderData.email}, ${orderData.fullName}, ${JSON.stringify(orderData.address)}, 'pending');
+        `;
+        console.log("✅ Zamówienie zapisane w Vercel Postgres!");
+    } catch (error) {
+        console.error("❌ Błąd bazy danych:", error.message);
     }
-    orders.push({ 
-        ...orderData, 
-        date: new Date().toISOString(),
-        status: 'pending'
-    });
-    fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2));
 }
 
 // Endpoint dla admina
-app.post('/admin-login', (req, res) => {
+app.post('/admin-login', async (req, res) => { // Dodane: async
     const { password } = req.body;
     if (password === process.env.ADMIN_PASSWORD) { // Zmienione: użycie zmiennej środowiskowej
-        const orders = fs.existsSync(ORDERS_FILE) ? 
-            JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf8')) : [];
-        res.json({ success: true, orders });
+        try {
+            const { rows: orders } = await sql`SELECT * FROM orders ORDER BY created_at DESC`;
+            res.json({ success: true, orders });
+        } catch (error) {
+            console.error("❌ Błąd bazy danych przy pobieraniu zamówień:", error);
+            res.status(500).json({ success: false, message: "Błąd bazy danych" });
+        }
     } else {
         res.status(401).json({ success: false, message: "Błędne hasło" });
     }
@@ -152,7 +166,7 @@ app.post('/create-payment-intent', async (req, res) => {
             }
         });
 
-        // Zapisujemy zamówienie lokalnie
+        // Zapisujemy zamówienie do bazy danych
         const orderData = {
             paymentIntentId: paymentIntent.id,
             amount: (unitAmount + shippingAmount) / 100,
@@ -174,7 +188,7 @@ app.post('/create-payment-intent', async (req, res) => {
             clientSecret: paymentIntent.client_secret
         };
         
-        saveOrder(orderData);
+        await saveOrder(orderData); // Dodane: await
 
         console.log('Utworzono PaymentIntent:', paymentIntent.id);
         
