@@ -119,30 +119,63 @@
         }
 
         /* Dodaj te style do istniejącego CSS */
-.input-field:invalid {
-    border-color: #ff6b6b;
-}
+        .input-field:invalid {
+            border-color: #ff6b6b;
+        }
 
-.input-field:valid {
-    border-color: #51cf66;
-}
+        .input-field:valid {
+            border-color: #51cf66;
+        }
 
-#error-message {
-    display: none;
-    padding: 12px;
-    background: #ffe3e3;
-    border: 1px solid #ff6b6b;
-    border-radius: 8px;
-    margin-top: 20px;
-}
+        #error-message {
+            display: none;
+            padding: 12px;
+            background: #ffe3e3;
+            border: 1px solid #ff6b6b;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
 
-.form-hint {
-    font-size: 12px;
-    color: #888;
-    margin-top: 5px;
-    display: block;
-}
-
+        .form-hint {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+            display: block;
+        }
+        
+        /* Pasek postępu */
+        .progress-bar {
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--stripe-blue);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .step {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .step.active {
+            color: var(--stripe-blue);
+            font-weight: 600;
+        }
 
     </style>
 </head>
@@ -157,6 +190,16 @@
 
 <div class="container">
     <div class="left-side">
+        <!-- Pasek postępu -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-steps">
+            <div class="step active" id="step1">1. Dane</div>
+            <div class="step" id="step2">2. Płatność</div>
+            <div class="step" id="step3">3. Gotowe</div>
+        </div>
+        
         <form id="payment-form">
             <div class="section-title">Dane kontaktowe</div>
             <div class="input-group-container">
@@ -210,9 +253,12 @@
 </div>
 
 <script>
+    // KLUCZOWA ZMIANA: Inicjalizacja Stripe z kluczem publicznym
     const stripe = Stripe('pk_test_51SRFlGETbCF5SCca4luNtP4tBkN1g7ObCeyCLPd6xRVRhGx9RCBj2cEv4kYlkU24pWE4rvocABJRuhNaz1PFmZfM00udXcfGvc');
+    
     let elements;
     let paymentIntentId;
+    let isPaymentInitialized = false;
 
     const params = new URLSearchParams(window.location.search);
     const pPrice = parseFloat(params.get('price') || '0');
@@ -224,6 +270,19 @@
     document.getElementById('sum-name').textContent = pName;
     document.getElementById('sum-price').textContent = pPrice.toFixed(2) + " PLN";
     document.getElementById('sum-total').textContent = (pPrice + 1).toFixed(2) + " PLN";
+
+    // Aktualizacja paska postępu
+    function updateProgress(step) {
+        const steps = document.querySelectorAll('.step');
+        steps.forEach((s, index) => {
+            if (index + 1 === step) {
+                s.classList.add('active');
+            } else {
+                s.classList.remove('active');
+            }
+        });
+        document.getElementById('progressFill').style.width = `${(step - 1) * 50}%`;
+    }
 
     // Wczytanie zapisanych danych z localStorage
     function loadSavedFormData() {
@@ -291,6 +350,7 @@
         return true;
     }
 
+    // KLUCZOWA FUNKCJA: Inicjalizacja płatności
     async function initializePayment() {
         try {
             if (!validateForm()) {
@@ -307,6 +367,7 @@
             const delivery = document.querySelector('input[name="delivery"]:checked').value;
 
             showLoading(true);
+            updateProgress(2); // Krok 2: Płatność
 
             // Tworzenie PaymentIntent z danymi klienta
             const response = await fetch('/create-payment-intent', {
@@ -335,7 +396,7 @@
 
             paymentIntentId = result.paymentIntentId;
 
-            // Inicjalizacja Stripe Elements
+            // Inicjalizacja Stripe Elements z clientSecret
             elements = stripe.elements({ 
                 clientSecret: result.clientSecret,
                 appearance: {
@@ -352,7 +413,7 @@
                 }
             });
 
-            // Tworzenie PaymentElement
+            // Tworzenie i montowanie PaymentElement
             const paymentElement = elements.create("payment", { 
                 layout: {
                     type: 'tabs',
@@ -360,8 +421,10 @@
                 }
             });
             
+            // KLUCZOWE: Montowanie elementu na stronie
             paymentElement.mount("#payment-element");
             
+            isPaymentInitialized = true;
             showLoading(false);
             return true;
         } catch (error) {
@@ -372,116 +435,85 @@
         }
     }
 
-async function handleSubmit(e) {
-    e.preventDefault();
-    
-    const btn = document.getElementById('submit-btn');
-    const errorElement = document.getElementById('error-message');
-    errorElement.textContent = '';
-    
-    // Walidacja przed płatnością
-    if (!validateForm()) {
-        return;
-    }
-
-    // Zapis danych formularza
-    saveFormData();
-
-    // Inicjalizacja płatności jeśli jeszcze nie zainicjalizowana
-    if (!elements) {
-        const initialized = await initializePayment();
-        if (!initialized) {
+    async function handleSubmit(e) {
+        e.preventDefault();
+        
+        const btn = document.getElementById('submit-btn');
+        const errorElement = document.getElementById('error-message');
+        errorElement.textContent = '';
+        errorElement.style.display = 'none';
+        
+        // Walidacja przed płatnością
+        if (!validateForm()) {
             return;
         }
-    }
 
-    btn.disabled = true;
-    btn.textContent = "Przetwarzanie...";
-    showLoading(true);
+        // Zapis danych formularza
+        saveFormData();
 
-    try {
-        const email = document.getElementById('email').value;
-        const fullName = document.getElementById('full-name').value;
-        const address1 = document.getElementById('address1').value;
-        const address2 = document.getElementById('address2').value;
-        const zip = document.getElementById('zip').value;
-        const city = document.getElementById('city').value;
-        const phone = document.getElementById('phone').value;
-
-        const { error, paymentIntent } = await stripe.confirmPayment({
-            elements,
-            confirmParams: {
-                return_url: `${window.location.origin}/success.html?payment_intent=${paymentIntentId}`,
-                // Tylko billing details, shipping już ustawione na serwerze
-                payment_method_data: {
-                    billing_details: {
-                        name: fullName,
-                        email: email,
-                        phone: phone,
-                        address: {
-                            line1: address1,
-                            line2: address2 || '',
-                            city: city,
-                            postal_code: zip,
-                            country: 'PL'
-                        }
-                    }
-                },
-                // Nie wysyłamy shipping, bo już jest ustawione w PaymentIntent
-                // receipt_email jest już ustawione w metadata na serwerze, ale możemy też tutaj
-                receipt_email: email
-            },
-            redirect: 'if_required'
-        });
-
-        if (error) {
-            console.error('Stripe error:', error);
-            if (error.type === "card_error" || error.type === "validation_error") {
-                showError(error.message);
-            } else {
-                showError("Wystąpił nieoczekiwany błąd podczas płatności");
+        // Inicjalizacja płatności jeśli jeszcze nie zainicjalizowana
+        if (!isPaymentInitialized) {
+            const initialized = await initializePayment();
+            if (!initialized) {
+                return;
             }
-            btn.disabled = false;
-            btn.textContent = "Zapłać teraz";
-            showLoading(false);
-            return;
         }
 
-        // Jeśli płatność wymaga przekierowania (np. 3D Secure)
-        if (paymentIntent && paymentIntent.status === 'requires_action') {
-            // Stripe automatycznie przekieruje do strony 3D Secure
-            return;
-        }
+        btn.disabled = true;
+        btn.textContent = "Przetwarzanie...";
+        showLoading(true);
 
-        // Aktualizacja statusu zamówienia
-        if (paymentIntent && paymentIntent.status === 'succeeded') {
-            await fetch('/update-order-status', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    paymentIntentId: paymentIntentId,
-                    status: 'succeeded'
-                })
+        try {
+            // KLUCZOWE: Potwierdzenie płatności z przekazaniem obiektu elements
+            const { error } = await stripe.confirmPayment({
+                elements, // TO JEST BARDZO WAŻNE - przekazujemy obiekt elements
+                confirmParams: {
+                    return_url: `${window.location.origin}/success.html?payment_intent=${paymentIntentId}`,
+                },
+                redirect: 'if_required'
             });
 
+            if (error) {
+                console.error('Stripe error:', error);
+                if (error.type === "card_error" || error.type === "validation_error") {
+                    showError(error.message);
+                } else {
+                    showError("Wystąpił nieoczekiwany błąd podczas płatności");
+                }
+                btn.disabled = false;
+                btn.textContent = "Zapłać teraz";
+                showLoading(false);
+                return;
+            }
+
+            // Aktualizacja statusu zamówienia
+            try {
+                await fetch('/update-order-status', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        paymentIntentId: paymentIntentId,
+                        status: 'succeeded'
+                    })
+                });
+            } catch (updateError) {
+                console.warn('Nie udało się zaktualizować statusu:', updateError);
+                // Kontynuujemy mimo błędu aktualizacji
+            }
+
+            updateProgress(3); // Krok 3: Gotowe
+            
             // Przekierowanie do strony sukcesu
             window.location.href = `/success.html?payment_intent=${paymentIntentId}`;
-        } else {
-            // Płatność nie powiodła się
-            showError('Płatność nie powiodła się. Spróbuj ponownie.');
+
+        } catch (error) {
+            console.error('Błąd płatności:', error);
+            showError('Błąd podczas przetwarzania płatności: ' + error.message);
             btn.disabled = false;
             btn.textContent = "Zapłać teraz";
             showLoading(false);
         }
-
-    } catch (error) {
-        console.error('Błąd płatności:', error);
-        showError('Błąd podczas przetwarzania płatności: ' + error.message);
-        btn.disabled = false;
-        btn.textContent = "Zapłać teraz";
-        showLoading(false);
     }
-}
 
     function showError(message) {
         const errorElement = document.getElementById('error-message');
@@ -525,6 +557,18 @@ async function handleSubmit(e) {
         if (field) {
             field.addEventListener('input', saveFormData);
             field.addEventListener('change', saveFormData);
+            
+            // Automatyczna inicjalizacja płatności po wypełnieniu wszystkich pól
+            field.addEventListener('blur', function() {
+                if (validateForm() && !isPaymentInitialized) {
+                    // Poczekaj chwilę, aby użytkownik mógł poprawić ewentualne błędy
+                    setTimeout(async () => {
+                        if (validateForm()) {
+                            await initializePayment();
+                        }
+                    }, 500);
+                }
+            });
         }
     });
 
@@ -549,21 +593,8 @@ async function handleSubmit(e) {
 
     // Inicjalizacja przy ładowaniu strony
     window.addEventListener('load', () => {
+        updateProgress(1); // Krok 1: Dane
         loadSavedFormData();
-        
-        // Jeśli wszystkie wymagane pola są wypełnione, zainicjalizuj płatność
-        const requiredFields = ['email', 'full-name', 'address1', 'zip', 'city', 'phone'];
-        const allFilled = requiredFields.every(id => {
-            const field = document.getElementById(id);
-            return field && field.value.trim() !== '';
-        });
-        
-        if (allFilled && validateForm()) {
-            // Poczekaj chwilę na załadowanie DOM
-            setTimeout(() => {
-                initializePayment();
-            }, 500);
-        }
     });
 
     // Handler dla zmiany metody dostawy
