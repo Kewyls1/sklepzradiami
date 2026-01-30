@@ -43,6 +43,24 @@
       </div>
     </nav>
     <div class="mobile-bottom-navigation">
+      <a href="/#products">
+      <button class="action-btn">
+        <ion-icon name="bag-handle-outline"></ion-icon>
+      </button>
+      </a>
+
+      <a href="/">
+      <button class="action-btn">
+        <ion-icon name="home-outline"></ion-icon>
+      </button>
+      </a>
+
+      <a href="/kontakt"> 
+      <button class="action-btn" data-mobile-menu-open-btn="">
+        <ion-icon name="grid-outline"></ion-icon>
+      </button>
+      </a>
+    </div>
       <button class="action-btn" data-mobile-menu-open-btn><ion-icon name="menu-outline"></ion-icon></button>
     </div>
   </header>
@@ -207,3 +225,88 @@
   <script src="/assets/js/kupowanie.js"></script>
 </body>
 </html>
+
+
+ <style>
+
+/* GŁÓWNY KONTENER PRODUKTU */
+@media (max-width: 768px) {
+    .product-details-container {
+        display: flex;
+        flex-direction: column; /* Zdjęcie nad opisem */
+        gap: 20px;
+        padding: 10px;
+    }
+
+    .product-gallery, .product-info {
+        width: 100%; /* Pełna szerokość na telefonie */
+    }
+
+    /* Galeria - miniaturki w rzędzie */
+    .thumbnail-list {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    
+    .thumbnail {
+        width: 60px;
+        height: 60px;
+    }
+
+    /* OPIS PRODUKTU - SEKCJE Z ZDJĘCIAMI */
+    .desc-row, .desc-row.reverse {
+        flex-direction: column !important; /* Wszystko w pionie */
+        text-align: center;
+    }
+
+    .desc-image-box {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .desc-image {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* TABELA SPECYFIKACJI - RESPONSYWNA */
+    .specs-table {
+        display: block;
+        overflow-x: auto; /* Przewijanie tabeli na boki, jeśli się nie mieści */
+        white-space: nowrap;
+        width: 100%;
+    }
+
+    /* OPINIE */
+    .reviews-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .review-bars {
+        width: 100%;
+    }
+
+    /* PRZYCISK KUP TERAZ */
+    .btn-primary {
+        width: 100%; /* Przycisk na całą szerokość ekranu telefonu */
+        padding: 15px;
+        font-size: 1.2rem;
+    }
+}
+
+/* DODATKOWE POPRAWKI DLA BARDZO MAŁYCH EKRANÓW (poniżej 480px) */
+@media (max-width: 480px) {
+    .product-title {
+        font-size: 1.4rem;
+    }
+
+    .current-price {
+        font-size: 1.6rem;
+    }
+}
+
+  </style>
