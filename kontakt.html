@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontakt - VeloMoto.pl</title>
+
+  <link rel="shortcut icon" href="./assets/images/logo/logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="./assets/css/style-prefix.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+
+  <style>
+    /* 1. Reset i ustawienie wysokości dla stopki na dole */
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      background: #f7f7f7;
+    }
+
+    main {
+      flex: 1 0 auto; /* To sprawia, że main wypełnia wolną przestrzeń, spychając footer */
+    }
+
+    footer {
+      flex-shrink: 0; /* Footer nie może się skurczyć */
+    }
+
+    /* 2. Style sekcji kontakt */
+    .contact-container {
+      padding: 40px 0;
+    }
+
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    }
+
+    .contact-info h2 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .info-item ion-icon {
+      font-size: 28px;
+      color: #3a86ff;
+      background: #ecf3ff;
+      padding: 10px;
+      border-radius: 50%;
+    }
+
+    /* 3. Style formularza */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .form-group input, 
+    .form-group textarea {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      background: #f9f9f9;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .form-group input:focus, 
+    .form-group textarea:focus {
+      border-color: #3a86ff;
+      background: #fff;
+    }
+
+    .submit-btn {
+      background: #3a86ff;
+      color: white;
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: 0.3s;
+    }
+
+    .submit-btn:hover {
+      background: #2667cc;
+      transform: translateY(-2px);
+    }
+
+    /* 4. Responsywność (Telefony) */
+    @media (max-width: 768px) {
+      .contact-wrapper {
+        grid-template-columns: 1fr; /* Jedna kolumna na komórki */
+        padding: 20px;
+        margin: 0 15px;
+        gap: 30px;
+      }
+
+      .contact-container {
+        padding: 20px 0;
+      }
+
+      .info-item {
+        margin-bottom: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="header-main">
+      <div class="container">
+        <a href="/" class="header-logo">
+          <img src="./assets/images/logo/logo.png" alt="Velomoto logo" width="120" height="90">
+        </a>
+        <div class="header-search-container">
+          <input type="search" name="search" class="search-field" placeholder="Wpisz nazwę produktu...">
+          <button class="search-btn">
+            <ion-icon name="search-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="mobile-bottom-navigation">
+      <a href="/#products">
+      <button class="action-btn">
+        <ion-icon name="bag-handle-outline"></ion-icon>
+      </button>
+      </a>
+
+      <a href="/">
+      <button class="action-btn">
+        <ion-icon name="home-outline"></ion-icon>
+      </button>
+      </a>
+
+      <a href="/kontakt"> 
+      <button class="action-btn" data-mobile-menu-open-btn="">
+        <ion-icon name="grid-outline"></ion-icon>
+      </button>
+      </a>
+    </div>
+      <div class="container">
+        <ul class="desktop-menu-category-list">
+          <li class="menu-category"><a href="/" class="menu-title">Strona główna</a></li>
+          <li class="menu-category"><a href="/#products" class="menu-title">Produkty</a></li>
+          <li class="menu-category"><a href="kontakt.html" class="menu-title">Kontakt</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="contact-container">
+      <div class="container">
+        <div class="contact-wrapper">
+          
+          <div class="contact-info">
+            <h2>Skontaktuj się z nami</h2>
+            <p style="margin-bottom: 20px; color: #666;">Masz pytania? Nasz zespół odpowie na Twoją wiadomość w ciągu 24h.</p>
+
+            
+            <div class="info-item">
+              <ion-icon name="call-outline"></ion-icon>
+              <div>
+                <strong>Telefon</strong>
+                <p>+48 502 183 354</p>
+              </div>
+            </div>
+            
+            <div class="info-item">
+              <ion-icon name="mail-outline"></ion-icon>
+              <div>
+                <strong>E-mail</strong>
+                <p>kontakt@velomoto.pl</p>
+              </div>
+            </div>
+          </div>
+
+          <form class="contact-form">
+            <div class="form-group">
+              <input type="text" placeholder="Imię i nazwisko" required>
+            </div>
+            <div class="form-group">
+              <input type="email" placeholder="Adres e-mail" required>
+            </div>
+            <div class="form-group">
+              <textarea rows="6" placeholder="W czym możemy Ci pomóc?" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Wyślij wiadomość</button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-bottom">
+      <div class="container">
+        <img src="/assets/images/payment.png" alt="payment method" class="payment-img">
+        <p class="copyright">
+          Copyright © Wszelkie prawa zastrzeżone.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+</html>
