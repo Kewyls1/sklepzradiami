@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Velomoto.pl - </title>
+  <title>Velomoto.pl - Radio Nawigacja Android BMW Seria 1 E81 E82 E87 E88 9" CarPlay Android Auto DSP 2/64GB</title>
   <link rel="shortcut icon" href="/assets/images/logo/logo.png" type="image/x-icon">
   <link rel="stylesheet" href="/assets/css/style-prefix.css">
   <link rel="stylesheet" href="/assets/css/product.css">
@@ -45,6 +45,24 @@
       </div>
     </nav>
     <div class="mobile-bottom-navigation">
+      <a href="/#products">
+      <button class="action-btn">
+        <ion-icon name="bag-handle-outline"></ion-icon>
+      </button>
+      </a>
+
+      <a href="/">
+      <button class="action-btn">
+        <ion-icon name="home-outline"></ion-icon>
+      </button>
+      </a>
+
+      <a href="/kontakt"> 
+      <button class="action-btn" data-mobile-menu-open-btn="">
+        <ion-icon name="grid-outline"></ion-icon>
+      </button>
+      </a>
+    </div>
       <button class="action-btn" data-mobile-menu-open-btn><ion-icon name="menu-outline"></ion-icon></button>
     </div>
   </header>
@@ -53,7 +71,7 @@
       <div class="product-details-container">
         <div class="product-gallery">
           <div class="main-image-wrapper" id="zoom-container" onmousemove="zoom(event)" onmouseleave="resetZoom()">
-            <img src="/assets/products/bmwradio/główny obraz/główny obraz_08.jpg" alt="Tester diagnostyczny OBD2 DS150E Bluetooth v9.1 PL 2021" class="main-image" id="MainImg">
+            <img src="/assets/products/bmwradio/główny obraz/główny obraz_08.jpg" alt="Radio Nawigacja Android BMW Seria 1 E81 E82 E87 E88 9" CarPlay Android Auto DSP 2/64GB" class="main-image" id="MainImg">
           </div>
           <div class="thumbnail-list">
             <img src="/assets/products/bmwradio/główny obraz/główny obraz_08.jpg" class="thumbnail active" onclick="changeImage(this)">
@@ -66,7 +84,7 @@
         </div>
         <div class="product-info">
           <span class="product-category">Multimedia Samochodowe</span>
-          <h1 class="product-title">Radio Nawigacja Android Opel Insignia 9.7" WiFi BT DSP Kamera 2/32GB</h1>
+          <h1 class="product-title">Radio Nawigacja Android BMW Seria 1 E81 E82 E87 E88 9" CarPlay Android Auto DSP 2/64GB</h1>
           <div class="price-wrapper">
             <span class="current-price">500.00 ZŁ</span>
           </div>
@@ -127,7 +145,7 @@
 </ul>
           </div>
           <div class="desc-image-box">
-            <img src="/assets/products/bmwradio/Obrazy opisowe/Obrazy opisowe_24.jpg" alt="Tester diagnostyczny OBD2 DS150E Bluetooth v9.1 PL 2021" class="desc-image">
+            <img src="/assets/products/bmwradio/Obrazy opisowe/Obrazy opisowe_24.jpg" alt="Radio Nawigacja Android BMW Seria 1 E81 E82 E87 E88 9 CarPlay Android Auto DSP 2/64GB" class="desc-image">
           </div>
         </div>
         <h3 style="font-size: 1.4rem; color: var(--text-dark); margin-bottom: 20px;">Specyfikacja Techniczna</h3>
@@ -277,3 +295,86 @@
 
 
 
+ <style>
+
+/* GŁÓWNY KONTENER PRODUKTU */
+@media (max-width: 768px) {
+    .product-details-container {
+        display: flex;
+        flex-direction: column; /* Zdjęcie nad opisem */
+        gap: 20px;
+        padding: 10px;
+    }
+
+    .product-gallery, .product-info {
+        width: 100%; /* Pełna szerokość na telefonie */
+    }
+
+    /* Galeria - miniaturki w rzędzie */
+    .thumbnail-list {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    
+    .thumbnail {
+        width: 60px;
+        height: 60px;
+    }
+
+    /* OPIS PRODUKTU - SEKCJE Z ZDJĘCIAMI */
+    .desc-row, .desc-row.reverse {
+        flex-direction: column !important; /* Wszystko w pionie */
+        text-align: center;
+    }
+
+    .desc-image-box {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .desc-image {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* TABELA SPECYFIKACJI - RESPONSYWNA */
+    .specs-table {
+        display: block;
+        overflow-x: auto; /* Przewijanie tabeli na boki, jeśli się nie mieści */
+        white-space: nowrap;
+        width: 100%;
+    }
+
+    /* OPINIE */
+    .reviews-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .review-bars {
+        width: 100%;
+    }
+
+    /* PRZYCISK KUP TERAZ */
+    .btn-primary {
+        width: 100%; /* Przycisk na całą szerokość ekranu telefonu */
+        padding: 15px;
+        font-size: 1.2rem;
+    }
+}
+
+/* DODATKOWE POPRAWKI DLA BARDZO MAŁYCH EKRANÓW (poniżej 480px) */
+@media (max-width: 480px) {
+    .product-title {
+        font-size: 1.4rem;
+    }
+
+    .current-price {
+        font-size: 1.6rem;
+    }
+}
+
+  </style>
