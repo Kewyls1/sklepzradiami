@@ -316,6 +316,10 @@ app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
+app.get('/kontakt', (req, res) => {
+    res.sendFile(path.join(__dirname, 'kontakt.html'));
+});
+
 // Endpoint do debugowania - pokazuje czy pliki są dostępne
 app.get('/debug-assets', (req, res) => {
     const assetsPath = path.join(__dirname, 'assets/css/style-prefix.css');
